@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-08 21:27:36
+/* Smarty version 3.1.29, created on 2016-08-13 23:54:51
   from "D:\WWW\photos\photosadmin\templates\admin-role.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a888c89aa2f9_94663090',
+  'unifunc' => 'content_57af42cba59a70_25786858',
   'file_dependency' => 
   array (
     'c62cfb4db1f6994bc470c7776e18db0c38704dcb' => 
@@ -21,7 +21,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
     'file:_footer.html' => 1,
   ),
 ),false)) {
-function content_57a888c89aa2f9_94663090 ($_smarty_tpl) {
+function content_57af42cba59a70_25786858 ($_smarty_tpl) {
 $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 

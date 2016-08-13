@@ -24,11 +24,19 @@ class adminController extends Controller
 
 	//admin list
 	public function admin_list(){
-		$admin_infos = $this->admin_mod->get_admin_info();
-		$admin_info_counts = COUNT($admin_infos); //计算总条数
+		$startDate = isset($_POST['datemin']) ? $_POST['datemin'] : "";
+		$endDate   = isset($_POST['datemax']) ? $_POST['datemax'] : "";
+		$adminName = isset($_POST['adminname']) ? $_POST['adminname'] : "";
 
-		view::assign(array('admin_info_counts'=>$admin_info_counts));
-		view::assign(array('admin_infos'=>$admin_infos));
+		$admin_infos = $this->admin_mod->get_admin_info($startDate,$endDate,$adminName);
+		$admin_info_counts=0;
+		if ($admin_infos) {
+			foreach ($admin_infos as $infos_value) {
+				$admin_info_counts += $infos_value['counts'];
+			}
+			view::assign(array('admin_info_counts'=>$admin_info_counts));
+			view::assign(array('admin_infos'=>$admin_infos));
+		}		
 		view::display('admin-list.html');
 	}
 
@@ -94,14 +102,14 @@ class adminController extends Controller
 		}else{
 			$id = $_POST['id'];
 			$admin_data = array(
-				'admin_namef'  => trim($_POST['username']),
-				'admin_pwd'   => md5(trim($_POST['password'])),
-				'sex'         => $_POST['sex'],
-				'tel'         => trim($_POST['tel']),
-				'email' => trim($_POST['email']),
-				'role_id'     => $_POST['role'],
-				'add_time'    => time(),
-				'remark'      => $_POST['remark'],
+				'admin_name' => trim($_POST['username']),
+				'admin_pwd'  => md5(trim($_POST['password'])),
+				'sex'        => $_POST['sex'],
+				'tel'        => trim($_POST['tel']),
+				'email'      => trim($_POST['email']),
+				'role_id'    => $_POST['role'],
+				'add_time'   => time(),
+				'remark'     => $_POST['remark'],
 				);
 			try {
 				$res_id = $this->admin_mod->update_admin_info($id,$admin_data);

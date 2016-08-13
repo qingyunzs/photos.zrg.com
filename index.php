@@ -1,4 +1,7 @@
 <?php
+/**
+ * 入口文件
+ */
 define('PUBLIC','/public'); //加载js、css
 header("Content-type: text/html; charset=utf-8");
 session_start();

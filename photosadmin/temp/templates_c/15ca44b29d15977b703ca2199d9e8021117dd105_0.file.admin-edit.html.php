@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-08 21:04:30
+/* Smarty version 3.1.29, created on 2016-08-14 00:34:53
   from "D:\WWW\photos\photosadmin\templates\admin-edit.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a8835e3f5ad7_43990793',
+  'unifunc' => 'content_57af4c2d7d1af1_01894480',
   'file_dependency' => 
   array (
     '15ca44b29d15977b703ca2199d9e8021117dd105' => 
     array (
       0 => 'D:\\WWW\\photos\\photosadmin\\templates\\admin-edit.html',
-      1 => 1470409847,
+      1 => 1471105972,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
     'file:_footer.html' => 1,
   ),
 ),false)) {
-function content_57a8835e3f5ad7_43990793 ($_smarty_tpl) {
+function content_57af4c2d7d1af1_01894480 ($_smarty_tpl) {
 $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
@@ -78,7 +78,7 @@ $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html
 			<div class="row cl">
 				<label class="form-label col-3"><span class="c-red">*</span>邮箱：</label>
 				<div class="formControls col-5">
-					<input type="text" class="input-text" placeholder="@" name="email" id="email" datatype="e" value="<?php echo $_smarty_tpl->tpl_vars['admin_info']->value['admin_email'];?>
+					<input type="text" class="input-text" placeholder="@" name="email" id="email" datatype="e" value="<?php echo $_smarty_tpl->tpl_vars['admin_info']->value['email'];?>
 " nullmsg="请输入邮箱！">
 				</div>
 				<div class="col-4"> </div>

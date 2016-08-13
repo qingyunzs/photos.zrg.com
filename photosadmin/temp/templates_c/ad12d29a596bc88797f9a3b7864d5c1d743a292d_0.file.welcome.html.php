@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-08 21:24:01
+/* Smarty version 3.1.29, created on 2016-08-13 23:10:19
   from "D:\WWW\photos\photosadmin\templates\welcome.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a887f1d76771_31658863',
+  'unifunc' => 'content_57af385ba1ca04_38007358',
   'file_dependency' => 
   array (
     'ad12d29a596bc88797f9a3b7864d5c1d743a292d' => 
@@ -21,7 +21,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
     'file:_footer.html' => 1,
   ),
 ),false)) {
-function content_57a887f1d76771_31658863 ($_smarty_tpl) {
+function content_57af385ba1ca04_38007358 ($_smarty_tpl) {
 $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
