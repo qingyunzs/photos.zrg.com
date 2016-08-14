@@ -44,11 +44,11 @@ class mysql_i{
 	 * @return [type]      [description]
 	 */
 	function query($sql){
-		if(!($query = mysqli_query($this->conn,$sql))){//使用mysql_query函数执行sql语句
+		$query = mysqli_query($this->conn,$sql);
+		if(!$query){//使用mysql_query函数执行sql语句
 			$this->err($sql."<br />".mysqli_error($this->conn));//mysql_error 报错
-		}else{
-			return $query;
 		}
+		return $query;
 	}
 
 	/**

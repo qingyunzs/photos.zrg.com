@@ -22,7 +22,8 @@ class adminModel
 			$sql.=" AND add_time >=".strtotime($startDate);
 		}
 		if (!empty($endDate)) {
-			$sql.=" AND add_time <=".strtotime($endDate);
+			$endDate_add=strtotime($endDate)+24*3600*1000;
+			$sql.=" AND add_time <=".$endDate_add;
 		}
 		if (!empty($adminName)) {
 			$sql.=" AND admin_name like '%".$adminName."%'";
@@ -83,8 +84,9 @@ class adminModel
 	 * @return [type]             [description]
 	 */
 	function update_admin_info($id,$admin_data){
-		$where = "id = $id";
-		return db::update($this->_table_admin,$admin_data,$where);
+		$where = " id = $id";
+		$res=db::update($this->_table_admin,$admin_data,$where);
+		var_dump($res);
 	}
 
 	function check_is_superadmin($id){

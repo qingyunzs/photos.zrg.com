@@ -34,9 +34,10 @@ class adminController extends Controller
 			foreach ($admin_infos as $infos_value) {
 				$admin_info_counts += $infos_value['counts'];
 			}
-			view::assign(array('admin_info_counts'=>$admin_info_counts));
-			view::assign(array('admin_infos'=>$admin_infos));
-		}		
+		}
+		view::assign(array('admin_info_counts'=>$admin_info_counts));
+		view::assign(array('admin_infos'=>$admin_infos));	
+		
 		view::display('admin-list.html');
 	}
 
@@ -48,22 +49,24 @@ class adminController extends Controller
 			view::display('admin-add.html');
 		}else{
 			$admin_data = array(
-				'admin_name'  => trim($_POST['username']),
-				'admin_pwd'   => md5(trim($_POST['password'])),
-				'sex'         => $_POST['sex'],
-				'tel'         => trim($_POST['tel']),
-				'email' => trim($_POST['email']),
-				'role_id'     => $_POST['role'],
-				'add_time'    => time(),
-				'remark'      => $_POST['remark'],
+				'admin_name' => trim($_POST['username']),
+				'admin_pwd'  => md5(trim($_POST['password'])),
+				'sex'        => $_POST['sex'],
+				'tel'        => trim($_POST['tel']),
+				'email'      => trim($_POST['email']),
+				'role_id'    => $_POST['role'],
+				'add_time'   => time(),
+				'remark'     => $_POST['remark'],
 				);
 			$res = $this->admin_mod->check_username(trim($_POST['username']));
 			if ($res) {
 				$id=$this->admin_mod->add_admin_info($admin_data);
 				if ($id) {
-					echo json_encode('y');
+					$data=array('info'=>'添加管理员成功。','status'=>'y');
+					echo json_encode($data);
 				}else{
-					echo json_encode('n');
+					$data=array('info'=>'添加管理员失败。','status'=>'n');
+					echo json_encode($data);
 				}
 			}else{
 				$this->show_message('管理员账户已存在！','index.php?controller=admin');
@@ -102,21 +105,25 @@ class adminController extends Controller
 		}else{
 			$id = $_POST['id'];
 			$admin_data = array(
-				'admin_name' => trim($_POST['username']),
-				'admin_pwd'  => md5(trim($_POST['password'])),
-				'sex'        => $_POST['sex'],
-				'tel'        => trim($_POST['tel']),
-				'email'      => trim($_POST['email']),
-				'role_id'    => $_POST['role'],
-				'add_time'   => time(),
-				'remark'     => $_POST['remark'],
+				'admin_name'       => trim($_POST['username']),
+				'admin_pwd'        => md5(trim($_POST['password'])),
+				'sex'              => $_POST['sex'],
+				'tel'              => trim($_POST['tel']),
+				'email'            => trim($_POST['email']),
+				'role_id'          => $_POST['role'],
+				'last_update_time' => time(),
+				'remark'           => $_POST['remark'],
 				);
 			try {
-				$res_id = $this->admin_mod->update_admin_info($id,$admin_data);
-				if ($res_id) {
-					echo json_encode('y');
+				$res=$this->admin_mod->update_admin_info($id,$admin_data);
+				var_dump($res);
+				die;
+				if ($res) {
+					$data=array('info'=>'更新管理员信息成功。','status'=>'y');
+					echo json_encode($data);
 				}else{
-					echo json_encode('n');
+					$data=array('info'=>'更新管理员信息失败。','status'=>'n');
+					echo json_encode($data);
 				}
 			} catch (Exception $e) {
 				$this->show_message('更新数据时出现异常','index.php?controller=admin');
