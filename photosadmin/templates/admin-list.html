@@ -23,19 +23,12 @@
                 </button>
             </div>
         </form>
-        <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;" onclick="datadel()"
-           class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a
-           href="javascript:;"
-           onclick="admin_add('添加管理员','index.php?controller=admin&amp;method=admin_add','800','500')"
-           class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span> <span
-           class="r">共有数据：<strong>{#$admin_info_counts#}</strong> 条</span></div>
-           <table class="table table-border table-bordered table-bg">
+        <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;" onclick="multitude_data_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_add('添加管理员','index.php?controller=admin&amp;method=admin_add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span> <span class="r">共有数据：<strong>{#$admin_info_counts#}</strong> 条</span>
+        </div>
+        <table class="table table-border table-bordered table-bg">
             <thead>
-                <tr>
-                    <th scope="col" colspan="9">管理员列表</th>
-                </tr>
                 <tr class="text-c">
-                    <th width="80"><input type="checkbox" name="" value="">管理员ID</th>
+                    <th width="10"><input type="checkbox" name="" value=""></th>
                     <th width="60">登录名</th>
                     <th width="30">性别</th>
                     <th width="80">手机</th>
@@ -52,7 +45,7 @@
             <!-- {#foreach $admin_infos item=$infos#} -->
             <tbody>
                 <tr class="text-c">
-                    <td><input type="checkbox" value="{#$infos.id#}" name="">{#$infos.id#}</td>
+                    <td><input type="checkbox" value="{#$infos.id#}" name="subChecked"></td>
                     <td>{#$infos.admin_name#}</td>
                     <td>{#$infos.sex#}</td>
                     <td>{#$infos.tel#}</td>
@@ -91,20 +84,22 @@
         </table>
     </div>
     {#include file="_footer.html"#}
-    <script type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"></script>
-    <script type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"></script> 
+    <script type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"></script> 
+    <script type="text/javascript" src="ADMIN_PUBLIC/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+    <!-- 加载admin-list.js -->
     <script type="text/javascript" src="ADMIN_PUBLIC/js/admin-manage/admin-list.js"></script>
     <script type="text/javascript">
-    $(function(){        
-        var DefaultStartDate=setDefaultStartDate();
-        var DefaultEndDate=setDefaultEndDate();
-        $("#datemin").attr({
-            value:DefaultStartDate, 
+        $(function(){
+            var DefaultStartDate=setDefaultStartDate();
+            var DefaultEndDate=setDefaultEndDate();
+            $("#datemin").attr({
+                value:DefaultStartDate, 
+            });
+            $("#datemax").attr({
+                value: DefaultEndDate, 
+            });
         });
-        $("#datemax").attr({
-            value: DefaultEndDate, 
-        });
-    });
     </script>
 </body>
 </html>

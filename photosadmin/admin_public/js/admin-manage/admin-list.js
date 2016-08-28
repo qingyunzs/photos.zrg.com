@@ -19,15 +19,53 @@
 		ajaxData("POST","json",data,contentType,url);
  	});
  });*/
+ /**
+  * 批量删除
+  * @return {[type]} [description]
+  */
+ function multitude_data_del(){
+ 	layer.confirm('确认要删除吗？',function(index){
+ 		layer.confirm('你正在删除多条数据，请再次确认!',function(index){
+ 			var str ="";
+ 			$('input:checkbox[name="subChecked"]:checked').each(function() {
+ 				str+=$(this).val()+",";
+ 			});
+ 			if (str=="") {
+ 				layer.msg("您没有选择任何数据！");
+ 				return;
+ 			}
+ 			var indexs=str.substring(str.length-1,-1);
+ 			$.ajax({
+ 				url: 'index.php?controller=admin&method=admin_del',
+ 				type: 'GET',
+ 				dataType: 'json',
+ 				data: {id: indexs},
+ 				success:function(data){
+ 					if (data.status=='y') {
+ 						layer.msg(data.info,{icon:1,time:2000},function(){
+ 							window.location.reload();
+ 						});
+ 					}else if(data.status=='0'){
+ 						layer.msg(data.info,{icon:5,time:2000},function(){
+ 							window.location.reload();
+ 						});
+ 					}
+ 				}
+ 			});
+ 		});
+ 	});
+ }
 
  /*管理员-增加*/
  function admin_add(title,url,w,h){
  	layer_show(title,url,w,h);
  }
+ 
  /*管理员-编辑*/
  function admin_edit(title,url,w,h){
  	layer_show(title,url,w,h);
  }
+
  /*管理员-删除*/
  function admin_del(obj,id){
  	layer.confirm('确认要删除吗？',function(index){
@@ -38,16 +76,24 @@
 			dataType: 'json',
 			data: {id: id},
 			success:function(data){
-
-			},
-			error:function(data){
-
+				if (data.status=='y') {
+					layer.msg(data.info,{icon:1,time:2000},function(){
+						window.location.reload();
+					});
+				}else if(data.status=='n'){
+					layer.msg(data.info,{icon:5,time:2000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg(data.info,{icon:5,time:2000},function(){
+						window.location.reload();
+					});
+				}
 			}
 		});
-
 		//下方是成功后的前台处理……
-		$(obj).parents("tr").remove();
-		layer.msg('已删除!',{icon:1,time:1000});
+		// $(obj).parents("tr").remove();
+		// layer.msg('已删除!',{icon:1,time:1000});
 	});
  }
  /*管理员-停用*/
@@ -60,17 +106,15 @@
 			dataType: 'json',
 			data: {id: id},
 			success: function(data){
-			},
-			error: function(){
+				
 			}
 		});
 
 		//下方是成功后的前台处理……
 		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe605;</i></a>');
 		$(obj).remove();
-		// $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
-
-		layer.msg('已冻结!',{icon: 5,time:1000}, function(){
+		// $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');	
+		layer.msg('已冻结!',{icon: 1,time:1000}, function(){
 			location.reload();
 		});
 	});

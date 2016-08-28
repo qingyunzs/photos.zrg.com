@@ -18,7 +18,7 @@ class Model
 	 * @return [type]     [description]
 	 */
 	function check_is_superadmin($id){
-		$query = "SELECT admin_name FROM ".DB_PREFIX.$this->_table_admin." WHERE 1 AND id='$id'";
+		$query = "SELECT admin_name FROM ".DB_PREFIX.$this->_table_admin." WHERE 1 AND id in(".$id.")";
 		return db::findOne($query);
 	}
 }

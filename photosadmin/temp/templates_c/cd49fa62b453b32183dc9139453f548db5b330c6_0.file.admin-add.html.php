@@ -1,4 +1,30 @@
-{#include file="_header.html"#}
+<?php
+/* Smarty version 3.1.29, created on 2016-08-27 19:34:49
+  from "D:\WWW\photos\photosadmin\templates\admin-add.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_57c17ad957bf51_81080499',
+  'file_dependency' => 
+  array (
+    'cd49fa62b453b32183dc9139453f548db5b330c6' => 
+    array (
+      0 => 'D:\\WWW\\photos\\photosadmin\\templates\\admin-add.html',
+      1 => 1472297678,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:_header.html' => 1,
+    'file:_footer.html' => 1,
+  ),
+),false)) {
+function content_57c17ad957bf51_81080499 ($_smarty_tpl) {
+$_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
 <link href="ADMIN_PUBLIC/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
 <title>添加管理员</title>
 </head>
@@ -58,9 +84,28 @@
 				<label class="form-label col-3">角色：</label>
 				<div class="formControls col-5"> <span class="select-box" style="width:150px;">
 					<select class="select" name="role" size="1">
-						<!-- {#foreach from=$roles item=$role#} -->
-						<option value="{#$role.role_id#}">{#$role.role_name#}</option>
-						<!-- {#/foreach#} -->
+						<!-- <?php
+$_from = $_smarty_tpl->tpl_vars['roles']->value;
+if (!is_array($_from) && !is_object($_from)) {
+settype($_from, 'array');
+}
+$__foreach_role_0_saved_item = isset($_smarty_tpl->tpl_vars['role']) ? $_smarty_tpl->tpl_vars['role'] : false;
+$_smarty_tpl->tpl_vars['role'] = new Smarty_Variable();
+$_smarty_tpl->tpl_vars['role']->_loop = false;
+foreach ($_from as $_smarty_tpl->tpl_vars['role']->value) {
+$_smarty_tpl->tpl_vars['role']->_loop = true;
+$__foreach_role_0_saved_local_item = $_smarty_tpl->tpl_vars['role'];
+?> -->
+						<option value="<?php echo $_smarty_tpl->tpl_vars['role']->value['role_id'];?>
+"><?php echo $_smarty_tpl->tpl_vars['role']->value['role_name'];?>
+</option>
+						<!-- <?php
+$_smarty_tpl->tpl_vars['role'] = $__foreach_role_0_saved_local_item;
+}
+if ($__foreach_role_0_saved_item) {
+$_smarty_tpl->tpl_vars['role'] = $__foreach_role_0_saved_item;
+}
+?> -->
 					</select>
 				</span> </div>
 			</div>
@@ -80,10 +125,15 @@
 		</form>
 	</div>
 
-	{#include file="_footer.html"#}
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/icheck/jquery.icheck.min.js"></script>
+	<?php $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
 
-	<script type="text/javascript">
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/lib/icheck/jquery.icheck.min.js"><?php echo '</script'; ?>
+>
+
+	<?php echo '<script'; ?>
+ type="text/javascript">
 		$(function(){
 			$('.skin-minimal input').iCheck({
 				checkboxClass: 'icheckbox-blue',
@@ -113,6 +163,8 @@
 				}
 			});
 		});
-	</script>
+	<?php echo '</script'; ?>
+>
 </body>
-</html>
+</html><?php }
+}

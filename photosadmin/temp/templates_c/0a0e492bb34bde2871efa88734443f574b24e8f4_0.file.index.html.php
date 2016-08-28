@@ -1,8 +1,35 @@
-﻿{#include file="_header.html"#}
+<?php
+/* Smarty version 3.1.29, created on 2016-08-25 23:15:06
+  from "D:\WWW\photos\photosadmin\templates\index.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_57bf0b7a939782_58621495',
+  'file_dependency' => 
+  array (
+    '0a0e492bb34bde2871efa88734443f574b24e8f4' => 
+    array (
+      0 => 'D:\\WWW\\photos\\photosadmin\\templates\\index.html',
+      1 => 1472138102,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:_header.html' => 1,
+    'file:_footer.html' => 1,
+  ),
+),false)) {
+function content_57bf0b7a939782_58621495 ($_smarty_tpl) {
+$_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
 <title>後台管理|ZRG</title>
 </head>
 <body>
-	<header class="Hui-header cl"> <a class="Hui-logo l" title="图库" href="{#$admin_url#}">图库管理平台</a> <a class="Hui-logo-m l" href="/" title="H-ui.admin">zrg</a> <span class="Hui-subtitle l">V1.0</span>
+	<header class="Hui-header cl"> <a class="Hui-logo l" title="图库" href="<?php echo $_smarty_tpl->tpl_vars['admin_url']->value;?>
+">图库管理平台</a> <a class="Hui-logo-m l" href="/" title="H-ui.admin">zrg</a> <span class="Hui-subtitle l">V1.0</span>
 		<nav class="mainnav cl" id="Hui-nav">
 			<ul>
 				<li class="dropDown dropDown_click"><a href="javascript:;" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i class="Hui-iconfont">&#xe6d5;</i></a>
@@ -164,8 +191,11 @@
 		</section>
 
 		<!-- footer -->
-		{#include file="_footer.html"#}
-		<script type="text/javascript">
+		<?php $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+		<?php echo '<script'; ?>
+ type="text/javascript">
 			/*资讯-添加*/
 			function article_add(title,url){
 				var index = layer.open({
@@ -197,8 +227,10 @@
 			function member_add(title,url,w,h){
 				layer_show(title,url,w,h);
 			}
-		</script>
-		<script type="text/javascript">
+		<?php echo '</script'; ?>
+>
+		<?php echo '<script'; ?>
+ type="text/javascript">
 			var _hmt = _hmt || [];
 			(function() {
 				var hm = document.createElement("script");
@@ -207,6 +239,8 @@
 				s.parentNode.insertBefore(hm, s)})();
 				var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 				document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F080836300300be57b7f34f4b3e97d911' type='text/javascript'%3E%3C/script%3E"));
-			</script>
+			<?php echo '</script'; ?>
+>
 		</body>
-		</html>
+		</html><?php }
+}

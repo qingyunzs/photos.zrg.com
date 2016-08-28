@@ -41,7 +41,7 @@ class adminController extends Controller
 		view::display('admin-list.html');
 	}
 
-	//admin add,edit
+	//admin add
 	public function admin_add(){
 		if (!IS_POST) {
 			$roles = $this->admin_mod->get_admin_role_list();
@@ -62,11 +62,9 @@ class adminController extends Controller
 			if ($res) {
 				$id=$this->admin_mod->add_admin_info($admin_data);
 				if ($id) {
-					$data=array('info'=>'添加管理员成功。','status'=>'y');
-					echo json_encode($data);
+					exit(json_encode(array('info'=>'添加管理员成功。','status'=>'y')));
 				}else{
-					$data=array('info'=>'添加管理员失败。','status'=>'n');
-					echo json_encode($data);
+					exit(json_encode(array('info'=>'添加管理员失败。','status'=>'n')));
 				}
 			}else{
 				$this->show_message('管理员账户已存在！','index.php?controller=admin');
@@ -86,20 +84,24 @@ class adminController extends Controller
 		}
 	}
 
-	//admin start
+	//admin unblock
 	public function admin_start(){
 		$id = $_GET['id'];
 		$res = $this->admin_mod->start_admin_user($id);
 		return $res;
 	}
 
+    //admin edit
 	public function admin_edit(){
 		if (!IS_POST) {
 			$id = $_GET['id'];
 			$admin_info = $this->admin_mod->find_admin_by_id($id);
 			$roles = $this->admin_mod->get_admin_role_list();
-
-			view::assign(array('roles'=>$roles));
+			$role_list=array();
+			foreach ($roles as $role) {
+				$role_list[$role['role_id']]=$role['role_name'];
+			}
+			view::assign(array('roles'=>$role_list));
 			view::assign(array('admin_info'=>$admin_info));
 			view::display('admin-edit.html');
 		}else{
@@ -114,19 +116,11 @@ class adminController extends Controller
 				'last_update_time' => time(),
 				'remark'           => $_POST['remark'],
 				);
-			try {
-				$res=$this->admin_mod->update_admin_info($id,$admin_data);
-				var_dump($res);
-				die;
-				if ($res) {
-					$data=array('info'=>'更新管理员信息成功。','status'=>'y');
-					echo json_encode($data);
-				}else{
-					$data=array('info'=>'更新管理员信息失败。','status'=>'n');
-					echo json_encode($data);
-				}
-			} catch (Exception $e) {
-				$this->show_message('更新数据时出现异常','index.php?controller=admin');
+			$res=$this->admin_mod->update_admin_info($id,$admin_data);
+			if ($res) {
+				exit(json_encode(array('info'=>'更新管理员信息成功。','status'=>'y')));
+			}else{
+				exit(json_encode(array('info'=>'更新管理员信息失败。','status'=>'n')));
 			}
 		}
 	}
@@ -134,23 +128,72 @@ class adminController extends Controller
 	//admin delete
 	public function admin_del(){
 		$id = $_GET['id'];
-		$res = $this->admin_mod->delete_admin_user($id);
-		return $res;
+		$check_res = $this->admin_mod->check_is_superadmin($id);
+		if ($check_res['admin_name'] == 'admin') {
+			exit(json_encode(array('info' =>'超级管理员不能被删除！','status'=>'0')));
+		}else{
+			$res = $this->admin_mod->delete_admin_user($id);
+			if ($res) {
+				exit(json_encode(array('info' =>'删除成功！','status'=>'y')));
+			}else{
+				exit(json_encode(array('info' =>'删除失败！','status'=>'n')));
+			}
+		}
 	}
 
 	//admin role list
 	public function admin_role(){
+		$admin_roles = $this->admin_mod->get_role_info();
+		$admin_role_counts=0;
+		if ($admin_roles) {
+			foreach ($admin_roles as $roles_value) {
+				$admin_role_counts += $roles_value['counts'];
+			}
+		}
+		view::assign(array('admin_role_counts'=>$admin_role_counts));
+		view::assign(array('admin_roles'=>$admin_roles));	
 		view::display('admin-role.html');
 	}
 
-	//admin role add,edit
+	//admin role add
 	public function admin_role_add(){
-		view::display('admin-role-add.html');
+		if (!IS_POST) {
+			view::display('admin-role-add.html');
+		}else{
+			$role_data = array(
+				'role_id'     => trim($_POST['roleid']),
+				'role_name'   => trim($_POST['rolename']),
+				'role_alias'  => trim($_POST['rolealias']),
+				'description' => $_POST['description']
+				);
+			$res = $this->admin_mod->check_role_exist($_POST['rolename']);
+			if ($res) {
+				$id=$this->admin_mod->add_role_info($role_data);
+				if ($id) {
+					exit(json_encode(array('info'=>'添加角色成功。','status'=>'y')));
+				}else{
+					exit(json_encode(array('info'=>'添加角色失败。','status'=>'n')));
+				}
+			}else{
+				$this->show_message('角色已存在！','index.php?controller=admin');
+			}
+		}
 	}
 
-	//admin delete
+	//admin role delete
 	public function admin_role_del(){
-
+		$id = $_GET['id'];
+		$check_res = $this->admin_mod->check_is_exist_children_user($id);
+		if ($check_res) {
+			$res = $this->admin_mod->delete_role_user($id);
+			if ($res) {
+				exit(json_encode(array('info' =>'已成功删除该角色！','status'=>'y')));
+			}else{
+				exit(json_encode(array('info' =>'未能成功删除该角色，请稍后再试！','status'=>'n')));
+			}
+		}else{
+			exit(json_encode(array('info' =>'该角色下存在用户，请先删除该角色下的用户！','status'=>'0')));
+		}
 	}
 
 	//admin permission

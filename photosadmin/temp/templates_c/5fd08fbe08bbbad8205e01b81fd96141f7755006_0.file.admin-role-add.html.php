@@ -1,4 +1,30 @@
-﻿{#include file="_header.html"#}
+<?php
+/* Smarty version 3.1.29, created on 2016-08-27 20:38:15
+  from "D:\WWW\photos\photosadmin\templates\admin-role-add.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_57c189b714b236_76049014',
+  'file_dependency' => 
+  array (
+    '5fd08fbe08bbbad8205e01b81fd96141f7755006' => 
+    array (
+      0 => 'D:\\WWW\\photos\\photosadmin\\templates\\admin-role-add.html',
+      1 => 1472301492,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:_header.html' => 1,
+    'file:_footer.html' => 1,
+  ),
+),false)) {
+function content_57c189b714b236_76049014 ($_smarty_tpl) {
+$_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
 <link href="ADMIN_PUBLIC/css/style.css" rel="stylesheet" type="text/css" />
 <link href="ADMIN_PUBLIC/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
 <title>新建管理员角色</title>
@@ -174,10 +200,17 @@
 			</div>
 		</form>
 	</div>
-	{#include file="_footer.html"#}
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"></script>
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"></script>
-	<script>
+	<?php $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+>
 		$(function(){
 			$(".permission-list dt input:checkbox").click(function(){
 				$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
@@ -222,6 +255,8 @@
 				}
 			});
 		});
-	</script>
+	<?php echo '</script'; ?>
+>
 </body>
-</html>
+</html><?php }
+}

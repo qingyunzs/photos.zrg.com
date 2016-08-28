@@ -1,4 +1,30 @@
-﻿{#include file="_header.html"#}
+<?php
+/* Smarty version 3.1.29, created on 2016-08-25 23:27:03
+  from "D:\WWW\photos\photosadmin\templates\member-list.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_57bf0e47450529_29159607',
+  'file_dependency' => 
+  array (
+    '9f34a4bad4d8085f1d5aaa8d489368817e57e4ac' => 
+    array (
+      0 => 'D:\\WWW\\photos\\photosadmin\\templates\\member-list.html',
+      1 => 1472138821,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:_header.html' => 1,
+    'file:_footer.html' => 1,
+  ),
+),false)) {
+function content_57bf0e47450529_29159607 ($_smarty_tpl) {
+$_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
 <title>会员管理</title>
 </head>
 <body>
@@ -45,11 +71,20 @@
 			</table>
 		</div>
 	</div>
-	{#include file="_footer.html"#}
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"></script> 
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"></script> 
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
-	<script type="text/javascript">
+	<?php $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"><?php echo '</script'; ?>
+> 
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"><?php echo '</script'; ?>
+> 
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/lib/datatables/1.10.0/jquery.dataTables.min.js"><?php echo '</script'; ?>
+> 
+	<?php echo '<script'; ?>
+ type="text/javascript">
 		$(function(){
 			$('.table-sort').dataTable({
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
@@ -111,6 +146,8 @@
 				layer.msg('已删除!',{icon:1,time:1000});
 			});
 		}
-	</script> 
+	<?php echo '</script'; ?>
+> 
 </body>
-</html>
+</html><?php }
+}

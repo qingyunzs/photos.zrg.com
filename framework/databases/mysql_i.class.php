@@ -44,11 +44,11 @@ class mysql_i{
 	 * @return [type]      [description]
 	 */
 	function query($sql){
-		$query = mysqli_query($this->conn,$sql);
-		if(!$query){//使用mysql_query函数执行sql语句
+		if(!$query = mysqli_query($this->conn,$sql)){//使用mysql_query函数执行sql语句
 			$this->err($sql."<br />".mysqli_error($this->conn));//mysql_error 报错
+		}else{
+			return $query;
 		}
-		return $query;
 	}
 
 	/**
@@ -117,7 +117,7 @@ class mysql_i{
 		}
 		$key_value_Arr = implode(",",$key_value_Arr);
 		$sql = "UPDATE ".$this->_prefix.$table." SET ".$key_value_Arr." WHERE ".$where;
-		$this->query($sql);
+		return $this->query($sql);
 	}
 
 	/**
@@ -128,7 +128,7 @@ class mysql_i{
 	 */
 	function del($table,$where){
 		$sql = "DELETE FROM ".$this->_prefix.$table." WHERE ".$where;
-		$this->query($sql);
+		return $this->query($sql);
 	}
 }
 ?>
