@@ -8,12 +8,6 @@ class adminController extends Controller
 
 	function __construct()
 	{
-		$this->adminController();
-	}
-
-	function adminController()
-	{
-		parent::Controller();
 		$this->admin_mod = M('admin');
 	}
 
@@ -143,15 +137,15 @@ class adminController extends Controller
 
 	//admin role list
 	public function admin_role(){
-		$admin_roles = $this->admin_mod->get_role_info();
-		$admin_role_counts=0;
-		if ($admin_roles) {
-			foreach ($admin_roles as $roles_value) {
-				$admin_role_counts += $roles_value['counts'];
+		$roles = $this->admin_mod->get_role_info();
+		$role_counts=0;
+		if ($roles) {
+			foreach ($roles as $roles_value) {
+				$role_counts += $roles_value['counts'];
 			}
 		}
-		view::assign(array('admin_role_counts'=>$admin_role_counts));
-		view::assign(array('admin_roles'=>$admin_roles));	
+		view::assign(array('role_counts'=>$role_counts));
+		view::assign(array('roles'=>$roles));	
 		view::display('admin-role.html');
 	}
 
@@ -185,7 +179,7 @@ class adminController extends Controller
 		$id = $_GET['id'];
 		$check_res = $this->admin_mod->check_is_exist_children_user($id);
 		if ($check_res) {
-			$res = $this->admin_mod->delete_role_user($id);
+			$res = $this->admin_mod->delete_role($id);
 			if ($res) {
 				exit(json_encode(array('info' =>'已成功删除该角色！','status'=>'y')));
 			}else{
@@ -193,6 +187,30 @@ class adminController extends Controller
 			}
 		}else{
 			exit(json_encode(array('info' =>'该角色下存在用户，请先删除该角色下的用户！','status'=>'0')));
+		}
+	}
+
+	//admin role edit
+	public function admin_role_edit(){
+		if (!IS_POST) {
+			$id = $_GET['id'];
+			$role_info = $this->admin_mod->find_role_by_id($id);
+			view::assign(array('role_info'=>$role_info));
+			view::display('admin-role-edit.html');
+		}else{
+			$id = $_POST['id'];
+			$role_data = array(
+				'role_id'     => trim($_POST['roleid']),
+				'role_name'   => trim($_POST['rolename']),
+				'role_alias'  => $_POST['rolealias'],
+				'description' => trim($_POST['description'])
+				);
+			$res=$this->admin_mod->update_role_info($id,$role_data);
+			if ($res) {
+				exit(json_encode(array('info'=>'更新角色信息成功。','status'=>'y')));
+			}else{
+				exit(json_encode(array('info'=>'更新角色信息失败。','status'=>'n')));
+			}
 		}
 	}
 
@@ -208,7 +226,7 @@ class adminController extends Controller
 
 	//admin permission delete
 	public function admin_permission_del(){
-
+		
 	}
 }
 ?>

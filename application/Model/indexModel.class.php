@@ -2,9 +2,7 @@
 /**
  * Index model of frontend
  */
-class indexModel{
-	function get(){
-		return "hello world";
-	}
+class indexModel extends Model{
+
 }
 ?>

@@ -58,6 +58,17 @@ class adminModel extends Model
 	}
 
 	/**
+	 * 通过id获取角色信息
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
+	function find_role_by_id($id){
+		$sql = "SELECT * FROM ".DB_PREFIX.$this->_table_role." WHERE 1 AND id='$id' ORDER BY id";
+		$result = db::findOne($sql);
+		return $result;
+	}
+
+	/**
 	 * 检查管理员是否存在
 	 * @param  [type] $username [description]
 	 * @return [type]           [description]
@@ -93,7 +104,7 @@ class adminModel extends Model
 	 * @return [type]         [description]
 	 */
 	function check_is_exist_children_user($id){
-		$sql= "SELECT count(*) AS count FROM ".DB_PREFIX.$this->_table_admin." AS admin,".DB_PREFIX.$this->_table_role." AS role WHERE admin.role_id=role.role_id and role.id='$id'";
+		$sql= "SELECT count(*) AS count FROM ".DB_PREFIX.$this->_table_admin." AS admin,".DB_PREFIX.$this->_table_role." AS role WHERE admin.role_id=role.role_id and role.id in (".$id.")";
 		$result = db::findOne($sql);
 		if ($result['count']>0) {
 			return false;
@@ -167,7 +178,7 @@ class adminModel extends Model
 	 * @return [type] [description]
 	 */
 	function get_role_info(){
-		$sql="SELECT id,role_id,role_name,role_alias,description FROM ".DB_PREFIX.$this->_table_role." ORDER BY role_id";
+		$sql="SELECT id,role_id,role_name,role_alias,description,COUNT(role_name) AS counts FROM ".DB_PREFIX.$this->_table_role." GROUP BY role_name ORDER BY role_id";
 		$result = db::findAll($sql);
 		return $result;
 	}
@@ -185,9 +196,20 @@ class adminModel extends Model
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
-	function delete_role_user($id){
+	function delete_role($id){
 		$where = " id in (".$id.") ";
 		return db::del($this->_table_role,$where);
+	}
+
+	/**
+	 * 更新角色信息
+	 * @param  [type] $id        [description]
+	 * @param  [type] $role_data [description]
+	 * @return [type]            [description]
+	 */
+	function update_role_info($id,$role_data){
+		$where = " id = $id";
+		return db::update($this->_table_role,$role_data,$where);
 	}
 }
 ?>

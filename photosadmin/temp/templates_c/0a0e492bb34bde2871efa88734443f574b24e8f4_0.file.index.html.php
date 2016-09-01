@@ -1,8 +1,35 @@
-﻿{#include file="_header.html"#}
+<?php
+/* Smarty version 3.1.29, created on 2016-09-01 22:51:31
+  from "D:\WWW\photos\photosadmin\templates\index.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_57c8407328d999_80968190',
+  'file_dependency' => 
+  array (
+    '0a0e492bb34bde2871efa88734443f574b24e8f4' => 
+    array (
+      0 => 'D:\\WWW\\photos\\photosadmin\\templates\\index.html',
+      1 => 1472741488,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:_header.html' => 1,
+    'file:_footer.html' => 1,
+  ),
+),false)) {
+function content_57c8407328d999_80968190 ($_smarty_tpl) {
+$_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
 <title>後台管理|ZRG</title>
 </head>
 <body>
-	<header class="Hui-header cl"> <a class="Hui-logo l" title="图库" href="{#$admin_url#}">图库管理平台</a> <a class="Hui-logo-m l" href="/" title="H-ui.admin">zrg</a> <span class="Hui-subtitle l">V1.0</span>
+	<header class="Hui-header cl"> <a class="Hui-logo l" title="图库" href="<?php echo $_smarty_tpl->tpl_vars['admin_url']->value;?>
+">图库管理平台</a> <a class="Hui-logo-m l" href="/" title="H-ui.admin">zrg</a> <span class="Hui-subtitle l">V1.0</span>
 		<nav class="mainnav cl" id="Hui-nav">
 			<ul>
 				<li class="dropDown dropDown_click"><a href="javascript:;" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i class="Hui-iconfont">&#xe6d5;</i></a>
@@ -39,22 +66,60 @@
 		<aside class="Hui-aside">
 			<input runat="server" id="divScrollValue" type="hidden" value="" />
 			<div class="menu_dropdown bk_2">
-				{#if $menu_tree#}
-				{#foreach $menu_tree item=$menus#}
+				<?php if ($_smarty_tpl->tpl_vars['menu_tree']->value) {?>
+				<?php
+$_from = $_smarty_tpl->tpl_vars['menu_tree']->value;
+if (!is_array($_from) && !is_object($_from)) {
+settype($_from, 'array');
+}
+$__foreach_menus_0_saved_item = isset($_smarty_tpl->tpl_vars['menus']) ? $_smarty_tpl->tpl_vars['menus'] : false;
+$_smarty_tpl->tpl_vars['menus'] = new Smarty_Variable();
+$_smarty_tpl->tpl_vars['menus']->_loop = false;
+foreach ($_from as $_smarty_tpl->tpl_vars['menus']->value) {
+$_smarty_tpl->tpl_vars['menus']->_loop = true;
+$__foreach_menus_0_saved_local_item = $_smarty_tpl->tpl_vars['menus'];
+?>
 				<dl id="menu-article">
-					<dt><i class="Hui-iconfont">{#$menus.menu_icon#}</i> {#$menus.menu_name#}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-					{#if $menus.menu_parent_id#}
+					<dt><i class="Hui-iconfont"><?php echo $_smarty_tpl->tpl_vars['menus']->value['menu_icon'];?>
+</i> <?php echo $_smarty_tpl->tpl_vars['menus']->value['menu_name'];?>
+<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+					<?php if ($_smarty_tpl->tpl_vars['menus']->value['menu_parent_id']) {?>
 					<dd>
 						<ul>
-							{#foreach $menus.menu_parent_id item=$menu#}
-							<li><a _href="{#$memu.menu_url#}" href="javascript:void(0)">{#$menu.menu_name#}</a></li>
-							{#/foreach#}
+							<?php
+$_from = $_smarty_tpl->tpl_vars['menus']->value['menu_parent_id'];
+if (!is_array($_from) && !is_object($_from)) {
+settype($_from, 'array');
+}
+$__foreach_menu_1_saved_item = isset($_smarty_tpl->tpl_vars['menu']) ? $_smarty_tpl->tpl_vars['menu'] : false;
+$_smarty_tpl->tpl_vars['menu'] = new Smarty_Variable();
+$_smarty_tpl->tpl_vars['menu']->_loop = false;
+foreach ($_from as $_smarty_tpl->tpl_vars['menu']->value) {
+$_smarty_tpl->tpl_vars['menu']->_loop = true;
+$__foreach_menu_1_saved_local_item = $_smarty_tpl->tpl_vars['menu'];
+?>
+							<li><a _href="<?php echo $_smarty_tpl->tpl_vars['memu']->value['menu_url'];?>
+" href="javascript:void(0)"><?php echo $_smarty_tpl->tpl_vars['menu']->value['menu_name'];?>
+</a></li>
+							<?php
+$_smarty_tpl->tpl_vars['menu'] = $__foreach_menu_1_saved_local_item;
+}
+if ($__foreach_menu_1_saved_item) {
+$_smarty_tpl->tpl_vars['menu'] = $__foreach_menu_1_saved_item;
+}
+?>
 						</ul>
 					</dd>
-					{#/if#}
+					<?php }?>
 				</dl>
-				{#/foreach#}
-				{#/if#}
+				<?php
+$_smarty_tpl->tpl_vars['menus'] = $__foreach_menus_0_saved_local_item;
+}
+if ($__foreach_menus_0_saved_item) {
+$_smarty_tpl->tpl_vars['menus'] = $__foreach_menus_0_saved_item;
+}
+?>
+				<?php }?>
 				<dl id="menu-article">
 					<dt><i class="Hui-iconfont">&#xe616;</i> 文章管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 					<dd>
@@ -181,8 +246,11 @@
 		</section>
 
 		<!-- footer -->
-		{#include file="_footer.html"#}
-		<script type="text/javascript">
+		<?php $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+		<?php echo '<script'; ?>
+ type="text/javascript">
 			/*资讯-添加*/
 			function article_add(title,url){
 				var index = layer.open({
@@ -214,8 +282,10 @@
 			function member_add(title,url,w,h){
 				layer_show(title,url,w,h);
 			}
-		</script>
-		<script type="text/javascript">
+		<?php echo '</script'; ?>
+>
+		<?php echo '<script'; ?>
+ type="text/javascript">
 			var _hmt = _hmt || [];
 			(function() {
 				var hm = document.createElement("script");
@@ -224,6 +294,8 @@
 				s.parentNode.insertBefore(hm, s)})();
 				var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 				document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F080836300300be57b7f34f4b3e97d911' type='text/javascript'%3E%3C/script%3E"));
-			</script>
+			<?php echo '</script'; ?>
+>
 		</body>
-		</html>
+		</html><?php }
+}

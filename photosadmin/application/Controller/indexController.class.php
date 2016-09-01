@@ -4,6 +4,7 @@
  */
 class indexController extends Controller{
 	public $auth;
+    private $index_mod;
 
 	function __construct(){
 		if(!(isset($_SESSION['auth']))&&(initialize::$method!='login')){
@@ -11,8 +12,17 @@ class indexController extends Controller{
 		}else{
 			$this->auth = isset($_SESSION['auth'])?$_SESSION['auth']:array();
 		}
+        $this->index_mod = M('index');
 	}
+	//load index page.
 	public function index(){
+        $menu_data=$this->index_mod->get_menus();
+        //get menu tree
+        $menuTree=parent::GetMenuTree($menu_data,0);
+        echo "<pre>";
+        print_r($menuTree);
+        die;
+        view::assign(array('menu_tree'=>$menuTree));
 		view::assign(array('admin_url' => ADMIN_URL));
 		view::display('index.html');
 	}

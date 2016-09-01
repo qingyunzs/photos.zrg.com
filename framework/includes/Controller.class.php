@@ -6,11 +6,7 @@ class Controller
 {
 	function __construct()
 	{
-		$this->Controller();
-	}
-
-	function Controller(){
-
+		
 	}
 
 	/**
@@ -39,6 +35,23 @@ class Controller
 			$cip = "无法获取到IP地址";
 		}
 		return $cip;
+	}
+
+	/**
+	 * get menu tree
+	 * @param [type]  $data [data]
+	 * @param integer $pid  [parent id]
+	 * 
+	 **/
+	protected function GetMenuTree($data,$pid=0){
+		$tree="";
+		foreach ($data as $key => $value) {
+			if ($value['menu_parent_id']==$pid) {
+				$value['menu_parent_id']=$this->GetMenuTree($data,$value['menu_id']);
+				$tree[]=$value;
+			}
+		}
+		return $tree;
 	}
 }
 ?>

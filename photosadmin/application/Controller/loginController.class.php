@@ -6,11 +6,6 @@ class loginController extends Controller
 {
 	function __construct()
 	{
-		$this->loginController();
-	}
-
-	function loginController(){
-		parent::Controller();
 		$this->login_mod = M('login');
 	}
 

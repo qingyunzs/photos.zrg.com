@@ -14,8 +14,9 @@ function multitude_role_del(){
 				return;
 			}
 			var indexs=str.substring(str.length-1,-1);
+			alert(indexs);
 			$.ajax({
-				url: 'index.php?controller=admin&method=admin_del',
+				url: 'index.php?controller=admin&method=admin_role_del',
 				type: 'GET',
 				dataType: 'json',
 				data: {id: indexs},
@@ -24,7 +25,11 @@ function multitude_role_del(){
 						layer.msg(data.info,{icon:1,time:2000},function(){
 							window.location.reload();
 						});
-					}else if(data.status=='0'){
+					}else if(data.status=='n'){
+						layer.msg(data.info,{icon:5,time:2000},function(){
+							window.location.reload();
+						});
+					}else{
 						layer.msg(data.info,{icon:5,time:2000},function(){
 							window.location.reload();
 						});
@@ -35,12 +40,26 @@ function multitude_role_del(){
 	});
 }
 
-/*管理员-角色-添加*/
+/**
+ * 管理员-角色-添加
+ * @param  {[type]} title [description]
+ * @param  {[type]} url   [description]
+ * @param  {[type]} w     [description]
+ * @param  {[type]} h     [description]
+ * @return {[type]}       [description]
+ */
 function admin_role_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
-/*管理员-角色-编辑*/
-function admin_role_edit(title,url,id,w,h){
+/**
+ * 管理员-角色-编辑
+ * @param  {[type]} title [description]
+ * @param  {[type]} url   [description]
+ * @param  {[type]} w     [宽度]
+ * @param  {[type]} h     [高度]
+ * @return {[type]}       [description]
+ */
+function admin_role_edit(title,url,w,h){
 	layer_show(title,url,w,h);
 }
 /*管理员-角色-删除*/
@@ -97,52 +116,5 @@ function admin_del(obj,id){
 		//下方是成功后的前台处理……
 		// $(obj).parents("tr").remove();
 		// layer.msg('已删除!',{icon:1,time:1000});
-	});
-}
-/*管理员-停用*/
-function admin_stop(obj,id){
-	layer.confirm('确认要冻结吗？',function(index){
-		//此处请求后台程序...
-		$.ajax({
-			url: 'index.php?controller=admin&method=admin_block',
-			type: 'GET',
-			dataType: 'json',
-			data: {id: id},
-			success: function(data){
-				
-			}
-		});
-
-		//下方是成功后的前台处理……
-		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe605;</i></a>');
-		$(obj).remove();
-		// $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');	
-		layer.msg('已冻结!',{icon: 1,time:1000}, function(){
-			location.reload();
-		});
-	});
-}
-
-/*管理员-启用*/
-function admin_start(obj,id){
-	layer.confirm('确认要启用吗？',function(index){
-		//此处请求后台程序，下方是成功后的前台处理……
-		$.ajax({
-			url: 'index.php?controller=admin&method=admin_start',
-			type: 'GET',
-			dataType: 'json',
-			data: {id: id},
-			success: function(){
-			},
-			error: function(){
-			}
-		});
-
-		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="冻结" style="text-decoration:none"><i class="Hui-iconfont">&#xe60e;</i></a>');
-		// $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-		$(obj).remove();
-		layer.msg('已启用!', {icon: 6,time:1000}, function(){
-			location.reload();
-		});
 	});
 }
