@@ -11,6 +11,7 @@
 		'includes/Model.class.php', //base model class
 
 		'libraries/plugins/verify-code/verify_code.class.php', //verigy code class
+		'libraries/plugins/pages/page.class.php',
 		'libraries/smarty/Smarty.class.php' //smarty
 	);
 ?>

@@ -4,16 +4,14 @@
 */
 class Model
 {
+	public $_table_menu = 'system_menu';
 	function __construct()
 	{
-		$this->Model();
-	}
-	function Model(){
-		//
+
 	}
 
 	/**
-	 * 检查是否是超级管理员
+	 * Check superadmin
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */

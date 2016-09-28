@@ -43,12 +43,18 @@ class Controller
 	 * @param integer $pid  [parent id]
 	 * 
 	 **/
-	protected function GetMenuTree($data,$pid=0){
-		$tree="";
-		foreach ($data as $key => $value) {
-			if ($value['menu_parent_id']==$pid) {
-				$value['menu_parent_id']=$this->GetMenuTree($data,$value['menu_id']);
-				$tree[]=$value;
+	protected function GetArrayTree($data,$pid=0){
+		$tree=array();
+		if (!empty($data) && is_array($data)) {
+			foreach ($data as $key => $value) {
+				if($value['menu_parent_id']==$pid){
+					$children=$this->GetArrayTree($data,$value['menu_id']);
+					if ($children) {
+						$value['children']=$children;
+					}
+					$tree[]=$value;
+					unset($value['menu_id']);
+				}
 			}
 		}
 		return $tree;

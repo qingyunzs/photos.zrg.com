@@ -17,21 +17,22 @@ class adminModel extends Model
 	 * @param  [type] $adminName [description]
 	 * @return [type]            [description]
 	 */
-	function get_admin_info($startDate,$endDate,$adminName){
+	function get_admin_info($searchObj){
 		$sql="SELECT admin.*, roles.role_name, count(admin_name) as counts,	roles.role_alias FROM ".DB_PREFIX.$this->_table_admin." AS admin LEFT JOIN ".DB_PREFIX.$this->_table_role." AS roles ON admin.role_id = roles.role_id ";
 		$sql.=" WHERE 1 ";
-		if (!empty($startDate)) {
-			$sql.=" AND add_time >=".strtotime($startDate);
+		if (!empty($searchObj->start_date)) {
+			$sql.=" AND add_time >=".strtotime($searchObj->start_date);
 		}
-		if (!empty($endDate)) {
-			$endDate_add=strtotime($endDate)+24*3600;
-			$sql.=" AND add_time <=".$endDate_add;
+		if (!empty($searchObj->end_date)) {
+			$endDate_add=strtotime($searchObj->end_date)+24*3600;
+			$sql.=" AND add_time <=".$searchObj->end_date;
 		}
-		if (!empty($adminName)) {
-			$sql.=" AND admin_name like '%".$adminName."%'";
+		if (!empty($searchObj->admin_name)) {
+			$sql.=" AND admin_name like '%".$searchObj->admin_name."%'";
 		}
 		$sql.=" GROUP BY admin_name,role_alias";
 		$sql.=" ORDER BY admin.add_time DESC";
+		$sql.=" LIMIT ".$searchObj->page_number.",".$searchObj->page_size;
 		$result = db::findAll($sql);
 		return $result;
 	}

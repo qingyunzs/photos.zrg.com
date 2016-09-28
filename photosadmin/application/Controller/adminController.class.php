@@ -5,6 +5,8 @@
 class adminController extends Controller
 {
 	private $admin_mod;
+	private $page_number=0;
+	private $page_size=10;
 
 	function __construct()
 	{
@@ -21,16 +23,33 @@ class adminController extends Controller
 		$startDate = isset($_POST['datemin']) ? $_POST['datemin'] : "";
 		$endDate   = isset($_POST['datemax']) ? $_POST['datemax'] : "";
 		$adminName = isset($_POST['adminname']) ? $_POST['adminname'] : "";
+		$roleId    =$_SESSION['auth']['role_id'];
+		$userId    =$_SESSION['auth']['id'];
+		$searchObj=(object)array(
+			'start_date'   =>$startDate,
+			'end_date'     =>$endDate,
+			'admin_name'   =>$adminName,
+			'page_number' =>$this->page_number,
+			'page_size'   =>$this->page_size
+			);
 
-		$admin_infos = $this->admin_mod->get_admin_info($startDate,$endDate,$adminName);
+		$curr_page=empty($_GET['curr_page']?1:$_GET['curr_page']);
+		// $url="?page={page}";
+		$admin_infos = $this->admin_mod->get_admin_info($searchObj);
 		$admin_info_counts=0;
 		if ($admin_infos) {
 			foreach ($admin_infos as $infos_value) {
 				$admin_info_counts += $infos_value['counts'];
 			}
 		}
-		view::assign(array('admin_info_counts'=>$admin_info_counts));
-		view::assign(array('admin_infos'=>$admin_infos));	
+		// if (!empty($_GET['curr_page']) && $admin_info_counts!=0 && $curr_page>ceil($admin_info_counts/$show_number)) {
+		// 	$curr_page=ceil($admin_info_counts/$show_number);
+		// }
+
+
+		view::assign(array('admin_info_counts' => $admin_info_counts));
+		view::assign(array('admin_infos' => $admin_infos));
+		view::assign(array('show_number' => $show_number ));
 		
 		view::display('admin-list.html');
 	}
