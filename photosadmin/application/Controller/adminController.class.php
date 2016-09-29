@@ -23,8 +23,7 @@ class adminController extends Controller
 		$startDate = isset($_POST['datemin']) ? $_POST['datemin'] : "";
 		$endDate   = isset($_POST['datemax']) ? $_POST['datemax'] : "";
 		$adminName = isset($_POST['adminname']) ? $_POST['adminname'] : "";
-		$roleId    =$_SESSION['auth']['role_id'];
-		$userId    =$_SESSION['auth']['id'];
+
 		$searchObj=(object)array(
 			'start_date'   =>$startDate,
 			'end_date'     =>$endDate,
