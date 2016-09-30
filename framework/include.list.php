@@ -9,6 +9,7 @@
 
 		'includes/Controller.class.php', //base controller class
 		'includes/Model.class.php', //base model class
+		'includes/ReturnInfo.class.php',
 
 		'libraries/plugins/verify-code/verify_code.class.php', //verigy code class
 		'libraries/plugins/pages/page.class.php',

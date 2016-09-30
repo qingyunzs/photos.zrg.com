@@ -6,19 +6,23 @@ class adminModel extends Model
 {
 	public $_table_admin = 'system_admin';
 	public $_table_role = 'system_roles';
+
+	private $returninfo=new ReturnInfo();
+
 	function __construct()
 	{
 		# code...
 	}
 	/**
-	 * [获取管理员列表
+	 * Get admin list.
 	 * @param  [type] $startDate [description]
 	 * @param  [type] $endDate   [description]
 	 * @param  [type] $adminName [description]
 	 * @return [type]            [description]
 	 */
-	function get_admin_info($searchObj){
-		$sql="SELECT admin.*, roles.role_name, count(admin_name) as counts,	roles.role_alias FROM ".DB_PREFIX.$this->_table_admin." AS admin LEFT JOIN ".DB_PREFIX.$this->_table_role." AS roles ON admin.role_id = roles.role_id ";
+	function get_admin_info($searchObj,$returninfo){
+		$result="";
+		$sql="SELECT admin.*, roles.role_name, count(admin_name) AS counts,	roles.role_alias FROM ".DB_PREFIX.$this->_table_admin." AS admin LEFT JOIN ".DB_PREFIX.$this->_table_role." AS roles ON admin.role_id = roles.role_id ";
 		$sql.=" WHERE 1 ";
 		if (!empty($searchObj->start_date)) {
 			$sql.=" AND add_time >=".strtotime($searchObj->start_date);
@@ -32,13 +36,15 @@ class adminModel extends Model
 		}
 		$sql.=" GROUP BY admin_name,role_alias";
 		$sql.=" ORDER BY admin.add_time DESC";
-		$sql.=" LIMIT ".$searchObj->page_number.",".$searchObj->page_size;
+		$returninfo->count=db::get_data_counts($sql,true);
+
+		$sql.=" LIMIT ".($searchObj->page_number-1)*.$searchObj->page_size",".$searchObj->page_size;
 		$result = db::findAll($sql);
 		return $result;
 	}
 
 	/**
-	 * 通过id获取管理员信息
+	 * Get admin info by id.
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
@@ -49,7 +55,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 获取管理员角色列表
+	 * Get admin-role list.
 	 * @return [type] [description]
 	 */
 	function get_admin_role_list(){
@@ -59,7 +65,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 通过id获取角色信息
+	 * Get role info by id.
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
@@ -70,7 +76,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 检查管理员是否存在
+	 * Check if the admin already exists.
 	 * @param  [type] $username [description]
 	 * @return [type]           [description]
 	 */
@@ -85,7 +91,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 检查角色是否存在
+	 * Check if the role already exists.
 	 * @param  [type] $rolename [description]
 	 * @return [type]           [description]
 	 */
@@ -100,7 +106,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 检查某个角色下是否有用户
+	 * Check if there is a user in a role
 	 * @param  [type] $id [description]
 	 * @return [type]         [description]
 	 */
@@ -115,7 +121,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 添加管理员信息
+	 * Add admin info
 	 * @param [type] $admin_data [description]
 	 */
 	function add_admin_info($admin_datas){
@@ -123,7 +129,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 更新管理员信息
+	 * Update admin info
 	 * @param  [type] $admin_data [description]
 	 * @return [type]             [description]
 	 */
@@ -133,7 +139,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 检查是否是超级管理员
+	 * Check if it is super admin.
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
@@ -143,7 +149,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 冻结管理员账户
+	 * Block acount.
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
@@ -154,7 +160,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 启用管理员账户
+	 * Unblock acount.
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
@@ -165,7 +171,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 删除管理员
+	 * Delete admin.
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
@@ -175,7 +181,7 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 获取后台角色信息
+	 * Get role info.
 	 * @return [type] [description]
 	 */
 	function get_role_info(){
@@ -185,25 +191,15 @@ class adminModel extends Model
 	}
 
 	/**
-	 * 添加角色
+	 * Add role.
 	 * @param [type] $admin_datas [description]
 	 */
 	function add_role_info($role_datas){
 		return db::insert($this->_table_role,$role_datas);
 	}
-
+	
 	/**
-	 * 删除角色
-	 * @param  [type] $id [description]
-	 * @return [type]     [description]
-	 */
-	function delete_role($id){
-		$where = " id in (".$id.") ";
-		return db::del($this->_table_role,$where);
-	}
-
-	/**
-	 * 更新角色信息
+	 * Update role.
 	 * @param  [type] $id        [description]
 	 * @param  [type] $role_data [description]
 	 * @return [type]            [description]
@@ -212,5 +208,16 @@ class adminModel extends Model
 		$where = " id = $id";
 		return db::update($this->_table_role,$role_data,$where);
 	}
+
+	/**
+	 * Delete role.
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
+	function delete_role($id){
+		$where = " id in (".$id.") ";
+		return db::del($this->_table_role,$where);
+	}
+
 }
 ?>

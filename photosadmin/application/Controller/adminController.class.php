@@ -5,8 +5,7 @@
 class adminController extends Controller
 {
 	private $admin_mod;
-	private $page_number=0;
-	private $page_size=10;
+	private $returninfo=new ReturnInfo();
 
 	function __construct()
 	{
@@ -20,10 +19,12 @@ class adminController extends Controller
 
 	//admin list
 	public function admin_list(){
-		$startDate = isset($_POST['datemin']) ? $_POST['datemin'] : "";
-		$endDate   = isset($_POST['datemax']) ? $_POST['datemax'] : "";
-		$adminName = isset($_POST['adminname']) ? $_POST['adminname'] : "";
-
+		$startDate   = isset($_POST['datemin']) ? $_POST['datemin'] : "";
+		$endDate     = isset($_POST['datemax']) ? $_POST['datemax'] : "";
+		$adminName   = isset($_POST['adminname']) ? $_POST['adminname'] : "";
+		$page_number = empty($_GET['curr_page']?1:$_GET['curr_page']);
+		$page_size   = empty($_GET['curr_size'])?10:$_GET['curr_size'];
+		
 		$searchObj=(object)array(
 			'start_date'   =>$startDate,
 			'end_date'     =>$endDate,
@@ -32,15 +33,15 @@ class adminController extends Controller
 			'page_size'   =>$this->page_size
 			);
 
-		$curr_page=empty($_GET['curr_page']?1:$_GET['curr_page']);
 		// $url="?page={page}";
-		$admin_infos = $this->admin_mod->get_admin_info($searchObj);
-		$admin_info_counts=0;
+		$admin_infos = $this->admin_mod->get_admin_info($searchObj,$returninfo);
+		$admin_info_counts=$returninfo->count;
+		/*$admin_info_counts=0;
 		if ($admin_infos) {
 			foreach ($admin_infos as $infos_value) {
 				$admin_info_counts += $infos_value['counts'];
 			}
-		}
+		}*/
 		// if (!empty($_GET['curr_page']) && $admin_info_counts!=0 && $curr_page>ceil($admin_info_counts/$show_number)) {
 		// 	$curr_page=ceil($admin_info_counts/$show_number);
 		// }
