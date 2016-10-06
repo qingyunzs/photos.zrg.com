@@ -34,7 +34,7 @@ class systemController extends Controller
 			'page_size'   =>$page_size
 			);
 
-		$menu_data=$this->system_mod->get_menu_info($searchObj,$returninfo);
+		$menu_data=$this->system_mod->get_menu_list($searchObj,$returninfo);
 		$menu_counts=$returninfo->count['count'];
 		$total_page=ceil($menu_counts/$page_size); // 如果有余，向上取整
 

@@ -16,7 +16,10 @@ class adminController extends Controller
 		$this->admin_list();
 	}
 
-	//admin list
+	/**
+	 * admin list
+	 * @return [type] [description]
+	 */
 	public function admin_list(){
 		$returninfo=new ReturnInfo();
 
@@ -56,7 +59,10 @@ class adminController extends Controller
 		view::display('admin-list.html');
 	}
 
-	//admin add
+	/**
+	 * admin add
+	 * @return [type] [description]
+	 */
 	public function admin_add(){
 		if (!IS_POST) {
 			$roles = $this->admin_mod->get_admin_role_list();
@@ -87,7 +93,10 @@ class adminController extends Controller
 		}
 	}
 
-	//admin block
+	/**
+	 * admin block
+	 * @return [type] [description]
+	 */
 	public function admin_block(){
 		$id = $_GET['id'];
 		$check_res = $this->admin_mod->check_is_superadmin($id);
@@ -99,7 +108,10 @@ class adminController extends Controller
 		}
 	}
 
-	//admin unblock
+	/**
+	 * admin unblock
+	 * @return [type] [description]
+	 */
 	public function admin_start(){
 		$id = $_GET['id'];
 		$res = $this->admin_mod->start_admin_user($id);

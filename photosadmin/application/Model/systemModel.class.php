@@ -6,8 +6,13 @@ class systemModel extends Model
 {
 	public $_table_menu='system_menu';
 
-	
-	function get_menu_info($searchObj,$returninfo){
+	/**
+	 * get menu list.
+	 * @param  [type] $searchObj  [description]
+	 * @param  [type] $returninfo [description]
+	 * @return [type]             [description]
+	 */
+	function get_menu_list($searchObj,$returninfo){
 		$sql=" id,menu_id,menu_parent_id,menu_name,menu_alias,menu_url,menu_icon,sort FROM ".DB_PREFIX.$this->_table_menu;
 		if (!empty($searchObj->menu_name)) {
 			$sql.=" WHERE menu_name like '".$searchObj->menu_name."' ";

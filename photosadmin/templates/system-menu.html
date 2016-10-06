@@ -32,7 +32,7 @@
 						<td><input type="checkbox" name="subChecked" value="{#$menus.id#}"></td>
 						<td>{#$menus.menu_id#}</td>
 						<td>{#$menus.menu_parent_id#}</td>
-						<td class="text-l">{#$menus.menu_name#}</td>
+						<td class="text-l"><!-- {#if !empty($menus.menu_parent_id)#} -->|---<!-- {#/if#} --><!-- {#if $menus.menu_parent_id=='0'#} -->|-<!-- {#/if#} -->{#$menus.menu_name#}</td>
 						<td>{#$menus.menu_alias#}</td>
 						<td>{#if $menus.menu_parent_id#}{#$menus.menu_url#}{#/if#}</td>
 						<td>{#$menus.sort#}</td>
