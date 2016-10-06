@@ -5,7 +5,6 @@
 class adminController extends Controller
 {
 	private $admin_mod;
-	private $returninfo=new ReturnInfo();
 
 	function __construct()
 	{
@@ -19,37 +18,40 @@ class adminController extends Controller
 
 	//admin list
 	public function admin_list(){
+		$returninfo=new ReturnInfo();
+
 		$startDate   = isset($_POST['datemin']) ? $_POST['datemin'] : "";
 		$endDate     = isset($_POST['datemax']) ? $_POST['datemax'] : "";
 		$adminName   = isset($_POST['adminname']) ? $_POST['adminname'] : "";
-		$page_number = empty($_GET['curr_page']?1:$_GET['curr_page']);
-		$page_size   = empty($_GET['curr_size'])?10:$_GET['curr_size'];
+		$curr_page = empty($_REQUEST['curr_page']) ? 1 : $_REQUEST['curr_page'];
+
+		// if (!empty($_GET['curr_page']) && $total != 0 && $curpage > ceil($total / $showrow))
+    		// $curpage = ceil($total_rows / $showrow); //当前页数大于最后页数，取最后一页
+		$page_size   = empty($_REQUEST['curr_size']) ? 10 : $_REQUEST['curr_size'];
 		
 		$searchObj=(object)array(
 			'start_date'   =>$startDate,
 			'end_date'     =>$endDate,
 			'admin_name'   =>$adminName,
-			'page_number' =>$this->page_number,
-			'page_size'   =>$this->page_size
+			'page_number' =>$curr_page,
+			'page_size'   =>$page_size
 			);
 
-		// $url="?page={page}";
 		$admin_infos = $this->admin_mod->get_admin_info($searchObj,$returninfo);
-		$admin_info_counts=$returninfo->count;
-		/*$admin_info_counts=0;
-		if ($admin_infos) {
-			foreach ($admin_infos as $infos_value) {
-				$admin_info_counts += $infos_value['counts'];
-			}
-		}*/
-		// if (!empty($_GET['curr_page']) && $admin_info_counts!=0 && $curr_page>ceil($admin_info_counts/$show_number)) {
-		// 	$curr_page=ceil($admin_info_counts/$show_number);
-		// }
+		// 数据条数
+		$admin_info_counts=$returninfo->count['count'];
+		$total_page=ceil($admin_info_counts/$page_size); // 如果有余，向上取整
 
+		// if ($admin_info_counts > $page_number) {
+		// $page=new page($admin_info_counts,$page_number,$page_size,$url,2);
+		// $show_page_div=$page->page_write();
 
+		view::assign(array('curr_page'=>$curr_page));
 		view::assign(array('admin_info_counts' => $admin_info_counts));
+		view::assign(array('total_page'=>$total_page));
 		view::assign(array('admin_infos' => $admin_infos));
-		view::assign(array('show_number' => $show_number ));
+		// view::assign(array('show_number' => $show_number ));
+		// view::assign(array('page_show' => $show_page_div));
 		
 		view::display('admin-list.html');
 	}
@@ -138,7 +140,10 @@ class adminController extends Controller
 		}
 	}
 
-	//admin delete
+	/**
+	 * Admin delete.
+	 * @return [type] [description]
+	 */
 	public function admin_del(){
 		$id = $_GET['id'];
 		$check_res = $this->admin_mod->check_is_superadmin($id);
@@ -154,7 +159,77 @@ class adminController extends Controller
 		}
 	}
 
-	//admin role list
+	/**
+	 * Admin trash list.
+	 * @return [type] [description]
+	 */
+	public function admin_trash(){
+		$returninfo=new ReturnInfo();
+
+		$startDate = isset($_POST['datemin']) ? $_POST['datemin'] : "";
+		$endDate   = isset($_POST['datemax']) ? $_POST['datemax'] : "";
+		$adminName = isset($_POST['adminname']) ? $_POST['adminname'] : "";
+		$curr_page = empty($_REQUEST['curr_page']) ? 1 : $_REQUEST['curr_page'];
+		$page_size = empty($_REQUEST['curr_size']) ? 10 : $_REQUEST['curr_size'];
+		
+		$searchObj=(object)array(
+			'start_date'   =>$startDate,
+			'end_date'     =>$endDate,
+			'admin_name'   =>$adminName,
+			'page_number' =>$curr_page,
+			'page_size'   =>$page_size
+			);
+
+		$deleted_admin_list = $this->admin_mod->get_deleted_admin_list($searchObj,$returninfo);
+		// 数据条数
+		$admin_info_counts=$returninfo->count['count'];
+		$total_page=ceil($admin_info_counts/$page_size); // 如果有余，向上取整
+
+		view::assign(array('curr_page'=>$curr_page));
+		view::assign(array('admin_info_counts' => $admin_info_counts));
+		view::assign(array('total_page'=>$total_page));
+		view::assign(array('deleted_admin_list' => $deleted_admin_list));
+		view::display('admin-trash.html');
+	}
+
+	/**
+	 * Forever delete.
+	 * @return [type] [description]
+	 */
+	public function forever_delete_admin(){
+		$id = $_GET['id'];
+		$check_res = $this->admin_mod->check_is_superadmin($id);
+		if ($check_res['admin_name'] == 'admin') {
+			exit(json_encode(array('info' =>'超级管理员不能被删除！','status'=>'0')));
+		}else{
+			$res = $this->admin_mod->forever_delete_admin_user($id);
+			if ($res) {
+				exit(json_encode(array('info' =>'删除成功！','status'=>'y')));
+			}else{
+				exit(json_encode(array('info' =>'删除失败！','status'=>'n')));
+			}
+		}
+	}
+
+	/**
+	 * Admin delete.
+	 * @return [type] [description]
+	 */
+	public function revoke_delete_admin(){
+		$id = $_GET['id'];
+		$check_res = $this->admin_mod->check_is_superadmin($id);
+		$res = $this->admin_mod->revoke_delete_admin_user($id);
+		if ($res) {
+			exit(json_encode(array('info' =>'操作成功！','status'=>'y')));
+		}else{
+			exit(json_encode(array('info' =>'未能成功撤销，请稍后再试！','status'=>'n')));
+		}
+	}
+
+	/**
+	 * Admin role list.
+	 * @return [type] [description]
+	 */
 	public function admin_role(){
 		$roles = $this->admin_mod->get_role_info();
 		$role_counts=0;
@@ -168,7 +243,10 @@ class adminController extends Controller
 		view::display('admin-role.html');
 	}
 
-	//admin role add
+	/**
+	 * Admin role add
+	 * @return [type] [description]
+	 */
 	public function admin_role_add(){
 		if (!IS_POST) {
 			view::display('admin-role-add.html');
@@ -193,7 +271,10 @@ class adminController extends Controller
 		}
 	}
 
-	//admin role delete
+	/**
+	 * Admin role delete
+	 * @return [type] [description]
+	 */
 	public function admin_role_del(){
 		$id = $_GET['id'];
 		$check_res = $this->admin_mod->check_is_exist_children_user($id);

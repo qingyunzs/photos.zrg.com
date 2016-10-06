@@ -19,16 +19,15 @@ class loginModel
 	 */
 	function check_auth($username,$password){
 		$auth = $this->find_by_username($username);
-		if((!empty($auth)) && $auth['admin_pwd'] == md5($password)){
+		if ((!empty($auth)) && $auth['is_delete']==1) {
+			return "deleted";
+		}else if ((!empty($auth)) && $auth['is_enable']==0) {
+			return "disabled";
+		}else if((!empty($auth)) && $auth['admin_pwd'] == md5($password)){
 			return $auth;
 		}else{
 			return false;
 		}
-	}
-
-	function check_user_status($username){
-		$sql = 'SELECT is_enable FROM '.'ph_'.$this->_table.' WHERE 1 AND admin_name="'.$username.'"';
-		return db::findOne($sql);
 	}
 
 	/**
@@ -37,7 +36,7 @@ class loginModel
 	 * @return [type]           [description]
 	 */
 	function find_by_username($username){
-		$sql = 'SELECT * FROM '.'ph_'.$this->_table.' WHERE admin_name="'.$username.'"';
+		$sql = 'SELECT role_id,admin_name,admin_pwd,sex,email,tel,is_enable,is_delete FROM '.'ph_'.$this->_table.' WHERE admin_name="'.$username.'"';
 		return db::findOne($sql);
 	}
 

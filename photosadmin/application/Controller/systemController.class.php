@@ -22,14 +22,24 @@ class systemController extends Controller
 
 	//menu list
 	public function system_menu_manage(){
-		$menuname = isset($_POST['menuname']) ? $_POST['menuname'] : "";
-		$menu_data=$this->system_mod->get_menu_info($menuname);
-		$admin_counts=0;
-		if ($menu_data) {
-			foreach ($menu_data as $menus_value) {
-				$menu_counts += $menus_value['counts'];
-			}
-		}
+		$returninfo=new ReturnInfo();
+
+		$menu_name = isset($_POST['menuname']) ? $_POST['menuname'] : "";
+		$curr_page = empty($_REQUEST['curr_page']) ? 1 : $_REQUEST['curr_page'];
+		$page_size   = empty($_REQUEST['curr_size']) ? 10 : $_REQUEST['curr_size'];
+
+		$searchObj=(object)array(
+			'menu_name'   =>$menu_name,
+			'page_number' =>$curr_page,
+			'page_size'   =>$page_size
+			);
+
+		$menu_data=$this->system_mod->get_menu_info($searchObj,$returninfo);
+		$menu_counts=$returninfo->count['count'];
+		$total_page=ceil($menu_counts/$page_size); // 如果有余，向上取整
+
+		view::assign(array('curr_page'=>$curr_page));
+		view::assign(array('total_page'=>$total_page));
 		View::assign(array('menu_counts'=>$menu_counts));
 		View::assign(array('menu_datas'=>$menu_data));
 		View::display('system-menu.html');

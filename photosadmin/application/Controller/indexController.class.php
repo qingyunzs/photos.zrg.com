@@ -14,7 +14,10 @@ class indexController extends Controller{
 		}
 		$this->index_mod = M('index');
 	}
-	//load index page.
+	/**
+	 * load index page.
+	 * @return [type] [description]
+	 */
 	public function index(){
 		//获取数据
 		$menuData=$this->index_mod->get_menu_data();

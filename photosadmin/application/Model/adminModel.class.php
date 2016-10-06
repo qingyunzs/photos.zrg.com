@@ -7,12 +7,11 @@ class adminModel extends Model
 	public $_table_admin = 'system_admin';
 	public $_table_role = 'system_roles';
 
-	private $returninfo=new ReturnInfo();
-
 	function __construct()
 	{
 		# code...
 	}
+
 	/**
 	 * Get admin list.
 	 * @param  [type] $startDate [description]
@@ -22,8 +21,8 @@ class adminModel extends Model
 	 */
 	function get_admin_info($searchObj,$returninfo){
 		$result="";
-		$sql="SELECT admin.*, roles.role_name, count(admin_name) AS counts,	roles.role_alias FROM ".DB_PREFIX.$this->_table_admin." AS admin LEFT JOIN ".DB_PREFIX.$this->_table_role." AS roles ON admin.role_id = roles.role_id ";
-		$sql.=" WHERE 1 ";
+		$sql=" admin.*, roles.role_name, count(admin_name) AS counts,	roles.role_alias FROM ".DB_PREFIX.$this->_table_admin." AS admin LEFT JOIN ".DB_PREFIX.$this->_table_role." AS roles ON admin.role_id = roles.role_id ";
+		$sql.=" WHERE is_delete=0 ";
 		if (!empty($searchObj->start_date)) {
 			$sql.=" AND add_time >=".strtotime($searchObj->start_date);
 		}
@@ -36,10 +35,12 @@ class adminModel extends Model
 		}
 		$sql.=" GROUP BY admin_name,role_alias";
 		$sql.=" ORDER BY admin.add_time DESC";
-		$returninfo->count=db::get_data_counts($sql,true);
+		
+		$returninfo->count=parent::get_data_counts($sql,true);
 
-		$sql.=" LIMIT ".($searchObj->page_number-1)*.$searchObj->page_size",".$searchObj->page_size;
-		$result = db::findAll($sql);
+		$sql.=" LIMIT ".($searchObj->page_number-1)*$searchObj->page_size.",".$searchObj->page_size;
+		$allSql=" SELECT ".$sql;
+		$result = db::findAll($allSql);
 		return $result;
 	}
 
@@ -176,8 +177,59 @@ class adminModel extends Model
 	 * @return [type]     [description]
 	 */
 	function delete_admin_user($id){
+		$arr = array('is_delete' => 1);
+		$where = " id in (".$id.") ";
+		return db::update($this->_table_admin,$arr,$where);
+	}
+
+	/**
+	 * Get admin deleted.
+	 * @return [type] [description]
+	 */
+	function get_deleted_admin_list($searchObj,$returninfo){
+		$result="";
+		$sql=" admin.*, roles.role_name, count(admin_name) AS counts, roles.role_alias FROM ".DB_PREFIX.$this->_table_admin." AS admin LEFT JOIN ".DB_PREFIX.$this->_table_role." AS roles ON admin.role_id = roles.role_id ";
+		$sql.=" WHERE is_delete=1 ";
+		if (!empty($searchObj->start_date)) {
+			$sql.=" AND add_time >=".strtotime($searchObj->start_date);
+		}
+		if (!empty($searchObj->end_date)) {
+			$endDate_add=strtotime($searchObj->end_date)+24*3600;
+			$sql.=" AND add_time <=".$searchObj->end_date;
+		}
+		if (!empty($searchObj->admin_name)) {
+			$sql.=" AND admin_name like '%".$searchObj->admin_name."%'";
+		}
+		$sql.=" GROUP BY admin_name,role_alias";
+		$sql.=" ORDER BY admin.add_time DESC";
+		
+		$returninfo->count=parent::get_data_counts($sql,true);
+
+		$sql.=" LIMIT ".($searchObj->page_number-1)*$searchObj->page_size.",".$searchObj->page_size;
+		$allSql=" SELECT ".$sql;
+		$result = db::findAll($allSql);
+		return $result;
+	}
+
+	/**
+	 * Delete forever.
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
+	function forever_delete_admin_user($id){
 		$where = " id in (".$id.") ";
 		return db::del($this->_table_admin,$where);
+	}
+
+	/**
+	 * Revoke delete.
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
+	function revoke_delete_admin_user($id){
+		$arr = array('is_delete' => 0);
+		$where = " id in (".$id.") ";
+		return db::update($this->_table_admin,$arr,$where);
 	}
 
 	/**

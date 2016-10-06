@@ -26,7 +26,7 @@ class indexModel
     }
 
     /**
-     * Query menu info by menu_id
+     * Query menu by menu_id
      * @param [type] $menuId [description]
      */
     function get_menu_root_data($menuId){
@@ -36,12 +36,13 @@ class indexModel
     }
 
     /**
-     * Query menu infos by menu_parent_id
+     * Query menu by menu_parent_id
      * @param [type] $menuParentId [description]
      */
     function get_menu_children_data($menuParentId){
         $sql="SELECT id,menu_id,menu_parent_id,menu_name,menu_alias,menu_url,menu_icon FROM ".DB_PREFIX.$this->_table_menu;
         $sql.=" WHERE menu_parent_id= '".$menuParentId."' ";
+        $sql.=" ORDER BY sort";
         return db::findAll($sql);
     }
 }

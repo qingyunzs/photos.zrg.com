@@ -66,7 +66,7 @@ class page {
         return str_replace("{page}", $page, $this->current_url);
     }
     //首页
-    private function myde_home() {
+    private function page_home() {
         if ($this->current_page != 1) {
             return "<a href='" . $this->page_replace(1) . "' title='首页'>首页</a>";
         } else {
@@ -74,7 +74,7 @@ class page {
         }
     }
     //上一页
-    private function myde_prev() {
+    private function page_prev() {
         if ($this->current_page != 1) {
             return "<a href='" . $this->page_replace($this->current_page - 1) . "' title='上一页'>上一页</a>";
         } else {
@@ -82,7 +82,7 @@ class page {
         }
     }
     //下一页
-    private function myde_next() {
+    private function page_next() {
         if ($this->current_page != $this->page_counts) {
             return "<a href='" . $this->page_replace($this->current_page + 1) . "' title='下一页'>下一页</a>";
         } else {
@@ -90,7 +90,7 @@ class page {
         }
     }
     //尾页
-    private function myde_last() {
+    private function page_last() {
         if ($this->current_page != $this->page_counts) {
             return "<a href='" . $this->page_replace($this->page_counts) . "' title='尾页'>尾页</a>";
         } else {
@@ -98,10 +98,10 @@ class page {
         }
     }
     //输出
-    public function myde_write($id = 'page') {
+    public function page_write($id = 'page') {
         $str = "<div id=" . $id . ">";
-        $str.=$this->myde_home();
-        $str.=$this->myde_prev();
+        $str.=$this->page_home();
+        $str.=$this->page_prev();
         if ($this->page_start > 1) {
             $str.="<p class='pageEllipsis'>...</p>";
         }
@@ -115,8 +115,8 @@ class page {
         if ($this->page_end < $this->page_counts) {
             $str.="<p class='pageEllipsis'>...</p>";
         }
-        $str.=$this->myde_next();
-        $str.=$this->myde_last();
+        $str.=$this->page_next();
+        $str.=$this->page_last();
         $str.="<p class='pageRemark'>共<b>" . $this->page_counts .
                 "</b>页<b>" . $this->total . "</b>条数据</p>";
         $str.="</div>";

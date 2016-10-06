@@ -21,6 +21,7 @@
 						<th width="150">栏目名称</th>
 						<th width="100">栏目别名</th>
 						<th>栏目URL</th>
+						<th width="30">排序</th>
 						<th width="100">操作</th>
 					</tr>
 				</thead>
@@ -34,6 +35,7 @@
 						<td class="text-l">{#$menus.menu_name#}</td>
 						<td>{#$menus.menu_alias#}</td>
 						<td>{#if $menus.menu_parent_id#}{#$menus.menu_url#}{#/if#}</td>
+						<td>{#$menus.sort#}</td>
 						<td class="f-14"><a title="编辑" href="javascript:;" onclick="system_category_edit('栏目编辑','system-category-add.html','1','700','480')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="article_category_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 					</tr>
 				</tbody>
@@ -48,6 +50,21 @@
 			</table>
 		</div>
 	</div>
+	<div id="page">
+        <div style="float: left;margin: 0px 0px 20px 20px;">
+            <span>当前&nbsp;&nbsp;{#$curr_page#}/{#$total_page#}&nbsp;&nbsp;页</span></span>
+        </div>&nbsp;&nbsp;
+        <div style="float: right;margin: 0px 20px 20px 0px;">
+            <span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page=1'>首页</a></span>
+            <!-- {#if $curr_page gt 1#} -->
+            <span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$curr_page-1#}'>上一页</a></span>
+            <!-- {#/if#} -->
+            <!-- {#if $curr_page lt $total_page#} -->
+            <span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$curr_page+1#}'>下一页</a></span>
+            <!-- {#/if#} -->
+            <span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$total_page#}'>尾页</a></span>
+        </div>
+    </div>
 	{#include file="_footer.html"#}
 	<script type="text/javascript" src="ADMIN_PUBLIC/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 	<script type="text/javascript">
