@@ -1,8 +1,34 @@
-﻿{#include file="_header.html"#}
-<title>图片列表</title>
+<?php
+/* Smarty version 3.1.29, created on 2016-10-07 15:23:46
+  from "D:\WWW\photos\photosadmin\templates\picture-category.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_57f74d827eaa90_98977200',
+  'file_dependency' => 
+  array (
+    'cc483a82301aada53e57eececb95cd0fb4c16763' => 
+    array (
+      0 => 'D:\\WWW\\photos\\photosadmin\\templates\\picture-category.html',
+      1 => 1475811144,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:_header.html' => 1,
+    'file:_footer.html' => 1,
+  ),
+),false)) {
+function content_57f74d827eaa90_98977200 ($_smarty_tpl) {
+$_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+<title>图片分类</title>
 </head>
 <body>
-	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 图片管理 <span class="c-gray en">&gt;</span> 图片列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 图片管理 <span class="c-gray en">&gt;</span> 图片分类 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 	<div class="pd-20">
 		<div class="text-c"> 日期范围：
 			<input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})" id="logmin" class="input-text Wdate" style="width:120px;">
@@ -43,10 +69,17 @@
 			</table>
 		</div>
 	</div>
-	{#include file="_footer.html"#}
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"></script>
-	<script type="text/javascript" src="ADMIN_PUBLIC/js/picture-manage/picture-list.js"></script>
-	<script type="text/javascript">
+	<?php $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/js/picture-manage/picture-list.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ type="text/javascript">
 		$(function(){
 			$('.table-sort').dataTable({
 				"aaSorting": [[ 1, "desc" ]],//默认第几个排序
@@ -57,6 +90,8 @@
 		  		]
 		  	});
 		});
-	</script>
+	<?php echo '</script'; ?>
+>
 </body>
-</html>
+</html><?php }
+}

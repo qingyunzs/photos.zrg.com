@@ -1,6 +1,6 @@
 <?php
 /**
-* 后台首页模型
+* Index Model.
 */
 class indexModel
 {

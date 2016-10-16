@@ -6,11 +6,21 @@
 	<div class="pd-20 text-c">
 		<form action="index.php?controller=system&amp;method=system_menu_manage" method="post">
 			<div class="text-c">
-			<input type="text" name="menuname" id="" placeholder="栏目名称" style="width:250px" class="input-text">
+				<input type="text" name="menuname" id="" placeholder="栏目名称" style="width:250px" class="input-text">
 				<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 			</div>
 		</form>
 		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" onclick="system_menu_add('添加栏目','index.php?controller=system&amp;method=system_menu_add')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加栏目</a></span> <span class="r">共有数据：<strong>{#$menu_counts#}</strong> 条</span> </div>
+		<div class="l pd-5" id="show_count_area">
+			<label>显示 
+				<select name="show_count" id="show_count">
+					<option value="10">10</option>
+					<option value="25">25</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select> 条
+			</label>
+		</div>
 		<div class="mt-20">
 			<table class="table table-border table-bordered table-hover table-bg table-sort">
 				<thead>
@@ -51,22 +61,23 @@
 		</div>
 	</div>
 	<div id="page">
-        <div style="float: left;margin: 0px 0px 20px 20px;">
-            <span>当前&nbsp;&nbsp;{#$curr_page#}/{#$total_page#}&nbsp;&nbsp;页</span></span>
-        </div>&nbsp;&nbsp;
-        <div style="float: right;margin: 0px 20px 20px 0px;">
-            <span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page=1'>首页</a></span>
-            <!-- {#if $curr_page gt 1#} -->
-            <span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$curr_page-1#}'>上一页</a></span>
-            <!-- {#/if#} -->
-            <!-- {#if $curr_page lt $total_page#} -->
-            <span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$curr_page+1#}'>下一页</a></span>
-            <!-- {#/if#} -->
-            <span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$total_page#}'>尾页</a></span>
-        </div>
-    </div>
+		<div style="float: left;margin: 0px 0px 20px 20px;">
+			<span>当前&nbsp;&nbsp;{#$curr_page#}/{#$total_page#}&nbsp;&nbsp;页</span></span>
+		</div>&nbsp;&nbsp;
+		<div style="float: right;margin: 0px 20px 20px 0px;">
+			<span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page=1'>首页</a></span>
+			<!-- {#if $curr_page gt 1#} -->
+			<span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$curr_page-1#}'>上一页</a></span>
+			<!-- {#/if#} -->
+			<!-- {#if $curr_page lt $total_page#} -->
+			<span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$curr_page+1#}'>下一页</a></span>
+			<!-- {#/if#} -->
+			<span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$total_page#}'>尾页</a></span>
+		</div>
+	</div>
 	{#include file="_footer.html"#}
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+	<script type="text/javascript" src="ADMIN_PUBLIC/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="ADMIN_PUBLIC/js/system-setting/system-menu.js"></script>
 	<script type="text/javascript">
 		/*$('.table-sort').dataTable({
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序

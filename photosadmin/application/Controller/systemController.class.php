@@ -21,7 +21,7 @@ class systemController extends Controller
 	}
 
 	//menu list
-	public function system_menu_manage(){
+	public function system_menu(){
 		$returninfo=new ReturnInfo();
 
 		$menu_name = isset($_POST['menuname']) ? $_POST['menuname'] : "";

@@ -1,4 +1,30 @@
-﻿{#include file="_header.html"#}
+<?php
+/* Smarty version 3.1.29, created on 2016-10-07 11:16:51
+  from "D:\WWW\photos\photosadmin\templates\article-list.html" */
+
+if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
+  'has_nocache_code' => false,
+  'version' => '3.1.29',
+  'unifunc' => 'content_57f713a39b0193_50671778',
+  'file_dependency' => 
+  array (
+    'e9ac9964e5ebcb8e4520518571182d07ed92da68' => 
+    array (
+      0 => 'D:\\WWW\\photos\\photosadmin\\templates\\article-list.html',
+      1 => 1475810176,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:_header.html' => 1,
+    'file:_footer.html' => 1,
+  ),
+),false)) {
+function content_57f713a39b0193_50671778 ($_smarty_tpl) {
+$_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
 <title>文章列表</title>
 </head>
 <body>
@@ -61,11 +87,18 @@
 			</table>
 		</div>
 	</div>
-	{#include file="_footer.html"#}
-	<script type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"></script>
+	<?php $_smarty_tpl->smarty->ext->_subtemplate->render($_smarty_tpl, "file:_footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"><?php echo '</script'; ?>
+>
 	<!-- article list -->
-	<script type="text/javascript" src="ADMIN_PUBLIC/js/article-manage/article-list.js"></script>
-	<script type="text/javascript">
+	<?php echo '<script'; ?>
+ type="text/javascript" src="ADMIN_PUBLIC/js/article-manage/article-list.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ type="text/javascript">
 		$('.table-sort').dataTable({
 			"aaSorting": [[ 1, "desc" ]],//默认第几个排序
 			"bStateSave": true,//状态保存
@@ -74,6 +107,8 @@
 	  		{"orderable":false,"aTargets":[0,8]}]// 制定列不参与排序
 	  		
 	  	});
-	  </script> 
+	  <?php echo '</script'; ?>
+> 
 	</body>
-	</html>
+	</html><?php }
+}
