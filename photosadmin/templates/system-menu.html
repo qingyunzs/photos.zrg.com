@@ -65,14 +65,14 @@
 			<span>当前&nbsp;&nbsp;{#$curr_page#}/{#$total_page#}&nbsp;&nbsp;页</span></span>
 		</div>&nbsp;&nbsp;
 		<div style="float: right;margin: 0px 20px 20px 0px;">
-			<span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page=1'>首页</a></span>
+			<span><a href='index.php?controller=system&amp;method=system_menu&amp;curr_page=1'>首页</a></span>
 			<!-- {#if $curr_page gt 1#} -->
-			<span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$curr_page-1#}'>上一页</a></span>
+			<span><a href='index.php?controller=system&amp;method=system_menu&amp;curr_page={#$curr_page-1#}'>上一页</a></span>
 			<!-- {#/if#} -->
 			<!-- {#if $curr_page lt $total_page#} -->
-			<span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$curr_page+1#}'>下一页</a></span>
+			<span><a href='index.php?controller=system&amp;method=system_menu&amp;curr_page={#$curr_page+1#}'>下一页</a></span>
 			<!-- {#/if#} -->
-			<span><a href='index.php?controller=system&amp;method=system_menu_manage&amp;curr_page={#$total_page#}'>尾页</a></span>
+			<span><a href='index.php?controller=system&amp;method=system_menu&amp;curr_page={#$total_page#}'>尾页</a></span>
 		</div>
 	</div>
 	{#include file="_footer.html"#}
