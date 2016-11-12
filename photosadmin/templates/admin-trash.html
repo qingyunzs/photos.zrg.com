@@ -23,7 +23,8 @@
                 </button>
             </div>
         </form>
-        <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;" onclick="forever_multitude_data_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 永久刪除</a> <a href="javascript:;" onclick="revoke_delete()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe66b;</i> 撤销删除</a></span> <span class="r">共有数据：<strong>{#$admin_info_counts#}</strong> 条</span>
+        <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;" onclick="adminManage.multitude_data_del(
+        '您正在执行永久删除操作，请再次确认！','index.php?controller=admin&method=forever_delete_admin','GET')" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 永久刪除</a> <a href="javascript:;" onclick="adminManage.revoke_delete()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe66b;</i> 撤销删除</a></span> <span class="r">共有数据：<strong>{#$admin_info_counts#}</strong> 条</span>
         </div>
         <div>
             <table class="table table-border table-bordered table-bg table-sort">
@@ -85,7 +86,7 @@
     <!-- <script type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"></script>  -->
     <script type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"></script> 
     <!-- 加载admin-list.js -->
-    <script type="text/javascript" src="ADMIN_PUBLIC/js/admin-manage/admin-list.js"></script>
+    <script type="text/javascript" src="ADMIN_PUBLIC/js/admin-manage/admin.js"></script>
     <script type="text/javascript">
         $(function(){
             var DefaultStartDate=setDefaultStartDate();

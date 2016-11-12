@@ -23,7 +23,8 @@
                 </button>
             </div>
         </form>
-        <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;" onclick="multitude_data_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量刪除</a> <a href="javascript:;" onclick="admin_add('添加管理员','index.php?controller=admin&amp;method=admin_add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span> <span class="r">共有数据：<strong>{#$admin_info_counts#}</strong> 条</span>
+        <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;" onclick="adminManage.multitude_data_del('您正在执行刪除多条数据操作，请再次确认！',
+            'index.php?controller=admin&method=admin_del','GET')" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量刪除</a> <a href="javascript:;" onclick="adminManage.admin_add('添加管理员','index.php?controller=admin&amp;method=admin_add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a> <a href="javascript:;" onclick="" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe644;</i> 导出数据</a></span> <span class="r">共有数据：<strong>{#$admin_info_counts#}</strong> 条</span>
         </div>
         <div>
             <table class="table table-border table-bordered table-bg table-sort">
@@ -59,15 +60,15 @@
                             $infos.is_enable eq 0 #}<span class="label label-defaunt radius">已冻结</span>{#/if#}
                         </td>
                         <td class="td-manage">
-                            {#if $infos.is_enable eq 1#}<a style="text-decoration:none" onclick="admin_stop(this,{#$infos.id#})"
+                            {#if $infos.is_enable eq 1#}<a style="text-decoration:none" onclick="adminManage.admin_stop(this,{#$infos.id#})"
                             href="javascript:;" title="冻结"><i class="Hui-iconfont">&#xe60e;</i></a>{#elseif
-                            $infos.is_enable eq 0 #}<a style="text-decoration:none" onclick="admin_start(this,{#$infos.id#})"
+                            $infos.is_enable eq 0 #}<a style="text-decoration:none" onclick="adminManage.admin_start(this,{#$infos.id#})"
                             href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe605;</i></a>{#/if#}<a
                             title="编辑" href="javascript:;"
-                            onclick="admin_edit('管理员编辑','index.php?controller=admin&amp;method=admin_edit&amp;id={#$infos.id#}','800','500')"
+                            onclick="adminManage.admin_edit('管理员编辑','index.php?controller=admin&amp;method=admin_edit&amp;id={#$infos.id#}','800','500')"
                             class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a><a title="刪除"
                             href="javascript:;"
-                            onclick="admin_del(this,{#$infos.id#})"
+                            onclick="adminManage.admin_del(this,{#$infos.id#})"
                             class="ml-5"
                             style="text-decoration:none"><i
                             class="Hui-iconfont">&#xe6e2;</i></a>
@@ -78,7 +79,7 @@
                 <!-- {#else#} -->
                 <tbody>
                     <tr>
-                    <td colspan="11">沒有找到任何数据！</td>
+                        <td colspan="11">沒有找到任何数据！</td>
                     </tr>
                 </tbody>
                 <!-- {#/if #} -->
@@ -104,7 +105,7 @@
     <!-- <script type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"></script>  -->
     <script type="text/javascript" src="ADMIN_PUBLIC/lib/My97DatePicker/WdatePicker.js"></script> 
     <!-- 加载admin-list.js -->
-    <script type="text/javascript" src="ADMIN_PUBLIC/js/admin-manage/admin-list.js"></script>
+    <script type="text/javascript" src="ADMIN_PUBLIC/js/admin-manage/admin.js"></script>
     <script type="text/javascript">
         $(function(){
             var DefaultStartDate=setDefaultStartDate();

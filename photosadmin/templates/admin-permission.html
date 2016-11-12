@@ -7,7 +7,7 @@
 	<div class="pd-20">
 		<div class="text-c">
 			<form class="Huiform" method="post" action="" target="_self">
-				<input type="text" class="input-text" style="width:250px" placeholder="权限名称" id="" name="">
+				<input type="text" class="input-text" style="width:250px" placeholder="权限节点名称" id="" name="nodename">
 				<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜权限节点</button>
 			</form>
 		</div>
@@ -15,27 +15,47 @@
 		<table class="table table-border table-bordered table-bg">
 			<thead>
 				<tr>
-					<th scope="col" colspan="7">权限节点</th>
+					<th scope="col" colspan="11">权限节点</th>
 				</tr>
 				<tr class="text-c">
 					<th width="25"><input type="checkbox" name="" value=""></th>
 					<th width="40">ID</th>
-					<th width="200">节点编号</th>
-					<th width="200">节点名称</th>
-					<th width="200">父节点名称</th>
+					<th width="150">节点编号</th>
+					<th width="150">父节点编号</th>
+					<th width="150">节点名称</th>
+					<th width="180">添加时间</th>
+					<th width="100">添加用户</th>
+					<th width="180">最后编辑时间</th>
+					<th width="100">编辑用户</th>
 					<th>备注</th>
 					<th width="100">操作</th>
 				</tr>
 			</thead>
+			<!-- {#if $node_list#} -->
+			<!-- {#foreach $node_list item=$nodes#} -->
 			<tbody>
 				<tr class="text-c">
 					<td><input type="checkbox" value="1" name=""></td>
-					<td>1</td>
-					<td>栏目添加</td>
-					<td></td>
+					<td>{#$nodes.id#}</td>
+					<td>{#$nodes.node_code#}</td>
+					<td>{#$nodes.parent_node_code#}</td>
+					<td>{#$nodes.node_name#}</td>
+					<td>{#$nodes.create_time#}</td>
+					<td>{#$nodes.create_who#}</td>
+					<td>{#$nodes.edit_time#}</td>
+					<td>{#$nodes.edit_who#}</td>
+					<td>{#$nodes.remarks#}</td>
 					<td><a title="编辑" href="javascript:;" onclick="admin_permission_edit('角色编辑','admin-permission-add.html','1','','310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_permission_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 				</tr>
 			</tbody>
+			<!-- {#/foreach#} -->
+			<!-- {#else#} -->
+			<tbody>
+				<tr>
+					<td colspan="11">沒有找到任何数据！</td>
+				</tr>
+			</tbody>
+			<!-- {#/if#} -->
 		</table>
 	</div>
 	{#include file="_footer.html"#}

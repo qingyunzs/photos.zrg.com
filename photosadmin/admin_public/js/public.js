@@ -36,3 +36,31 @@ function setDefaultEndDate() {
 		// }
 	});
  }
+
+ /**
+ * 获取分页条
+ * @return {[type]} [description]
+ */
+ function _get_page_bar(){
+	//页码大于最大页数
+	if(curPage>totalPage) curPage=totalPage;
+	//页码小于1
+	if(curPage<1) curPage=1;
+	pageStr = "<span>共"+total+"条</span><span>"+curPage+"/"+totalPage+"</span>";
+
+	//如果是第一页
+	if(curPage==1){
+		pageStr += "<span>首页</span><span>上一页</span>";
+	}else{
+		pageStr += "<span><a href='javascript:void(0)' rel='1'>首页</a></span><span><a href='javascript:void(0)' rel='"+(curPage-1)+"'>上一页</a></span>";
+	}
+
+	//如果是最后页
+	if(curPage>=totalPage){
+		pageStr += "<span>下一页</span><span>尾页</span>";
+	}else{
+		pageStr += "<span><a href='javascript:void(0)' rel='"+(parseInt(curPage)+1)+"'>下一页</a></span><span><a href='javascript:void(0)' rel='"+totalPage+"'>尾页</a></span>";
+	}
+
+	$("#page").html(pageStr);
+}

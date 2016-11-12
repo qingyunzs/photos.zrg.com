@@ -21,14 +21,14 @@ class adminModel extends Model
 	 */
 	function get_admin_info($searchObj,$returninfo){
 		$result="";
-		$sql=" admin.*, roles.role_name, count(admin_name) AS counts,	roles.role_alias FROM ".DB_PREFIX.$this->_table_admin." AS admin LEFT JOIN ".DB_PREFIX.$this->_table_role." AS roles ON admin.role_id = roles.role_id ";
+		$sql=" admin.*, roles.role_name, count(admin_name) AS counts,roles.role_alias FROM ".DB_PREFIX.$this->_table_admin." AS admin LEFT JOIN ".DB_PREFIX.$this->_table_role." AS roles ON admin.role_id = roles.role_id ";
 		$sql.=" WHERE is_delete=0 ";
 		if (!empty($searchObj->start_date)) {
 			$sql.=" AND add_time >=".strtotime($searchObj->start_date);
 		}
 		if (!empty($searchObj->end_date)) {
 			$endDate_add=strtotime($searchObj->end_date)+24*3600;
-			$sql.=" AND add_time <=".$searchObj->end_date;
+			$sql.=" AND add_time <=".$endDate_add;
 		}
 		if (!empty($searchObj->admin_name)) {
 			$sql.=" AND admin_name like '%".$searchObj->admin_name."%'";
@@ -40,6 +40,7 @@ class adminModel extends Model
 
 		$sql.=" LIMIT ".($searchObj->page_number-1)*$searchObj->page_size.",".$searchObj->page_size;
 		$allSql=" SELECT ".$sql;
+		echo $allSql;
 		$result = db::findAll($allSql);
 		return $result;
 	}
@@ -66,12 +67,22 @@ class adminModel extends Model
 	}
 
 	/**
+	 * Get role id
+	 * @return [type] [description]
+	 */
+	function get_admin_role_id(){
+		$sql="SELECT MAX(role_id) as role_id from ".DB_PREFIX.$this->_table_role;
+		$result=db::findOne($sql);
+		return $result;
+	}
+
+	/**
 	 * Get role info by id.
 	 * @param  [type] $id [description]
 	 * @return [type]     [description]
 	 */
 	function find_role_by_id($id){
-		$sql = "SELECT * FROM ".DB_PREFIX.$this->_table_role." WHERE 1 AND id='$id' ORDER BY id";
+		$sql = "SELECT id,role_id,role_name,role_alias,description FROM ".DB_PREFIX.$this->_table_role." WHERE 1 AND id='$id' ORDER BY id";
 		$result = db::findOne($sql);
 		return $result;
 	}
@@ -271,5 +282,10 @@ class adminModel extends Model
 		return db::del($this->_table_role,$where);
 	}
 
+	function get_node_list($node_name){
+		$sql="SELECT id,node_code,parent_node_code,node_name,create_time,create_who,edit_time,edit_who,remarks FROM ph_system_node";
+		$sql.=" WHERE node_name like '%".$node_name."%'";
+		return db::findAll($sql);
+	}
 }
 ?>

@@ -21,7 +21,7 @@ class indexModel
      */
     function get_menu_data(){
         $sql="SELECT id,menu_id,menu_parent_id,menu_name,menu_alias,menu_url,menu_icon FROM ".DB_PREFIX.$this->_table_menu;
-        $sql.=" GROUP BY menu_id";
+        $sql.=" GROUP BY id,menu_id";
         return db::findAll($sql);
     }
 

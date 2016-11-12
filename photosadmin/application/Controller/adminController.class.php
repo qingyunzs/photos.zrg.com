@@ -118,39 +118,42 @@ class adminController extends Controller
 		return $res;
 	}
 
-    //admin edit
-	public function admin_edit(){
-		if (!IS_POST) {
-			$id = $_GET['id'];
-			$admin_info = $this->admin_mod->find_admin_by_id($id);
-			$roles = $this->admin_mod->get_admin_role_list();
-			$role_list=array();
-			foreach ($roles as $role) {
-				$role_list[$role['role_id']]=$role['role_name'];
-			}
-			view::assign(array('roles'=>$role_list));
-			view::assign(array('admin_info'=>$admin_info));
-			view::display('admin-edit.html');
-		}else{
-			$id = $_POST['id'];
-			$admin_data = array(
-				'admin_name'       => trim($_POST['username']),
-				'admin_pwd'        => md5(trim($_POST['password'])),
-				'sex'              => $_POST['sex'],
-				'tel'              => trim($_POST['tel']),
-				'email'            => trim($_POST['email']),
-				'role_id'          => $_POST['role'],
-				'last_update_time' => time(),
-				'remark'           => $_POST['remark'],
-				);
-			$res=$this->admin_mod->update_admin_info($id,$admin_data);
-			if ($res) {
-				exit(json_encode(array('info'=>'更新管理员信息成功。','status'=>'y')));
-			}else{
-				exit(json_encode(array('info'=>'更新管理员信息失败。','status'=>'n')));
-			}
-		}
-	}
+    /**
+     * admin edit
+     * @return [type] [description]
+     */
+    public function admin_edit(){
+    	if (!IS_POST) {
+    		$id = $_GET['id'];
+    		$admin_info = $this->admin_mod->find_admin_by_id($id);
+    		$roles = $this->admin_mod->get_admin_role_list();
+    		$role_list=array();
+    		foreach ($roles as $role) {
+    			$role_list[$role['role_id']]=$role['role_name'];
+    		}
+    		view::assign(array('roles'=>$role_list));
+    		view::assign(array('admin_info'=>$admin_info));
+    		view::display('admin-edit.html');
+    	}else{
+    		$id = $_POST['id'];
+    		$admin_data = array(
+    			'admin_name'       => trim($_POST['username']),
+    			'admin_pwd'        => md5(trim($_POST['password'])),
+    			'sex'              => $_POST['sex'],
+    			'tel'              => trim($_POST['tel']),
+    			'email'            => trim($_POST['email']),
+    			'role_id'          => $_POST['role'],
+    			'last_update_time' => time(),
+    			'remark'           => $_POST['remark'],
+    			);
+    		$res=$this->admin_mod->update_admin_info($id,$admin_data);
+    		if ($res) {
+    			exit(json_encode(array('info'=>'更新管理员信息成功。','status'=>'y')));
+    		}else{
+    			exit(json_encode(array('info'=>'更新管理员信息失败。','status'=>'n')));
+    		}
+    	}
+    }
 
 	/**
 	 * Admin delete.
@@ -261,6 +264,9 @@ class adminController extends Controller
 	 */
 	public function admin_role_add(){
 		if (!IS_POST) {
+			// get role_id
+			$roleId=$this->admin_mod->get_admin_role_id();
+			view::assign(array('role_id'=>$roleId['role_id']+1));
 			view::display('admin-role-add.html');
 		}else{
 			$role_data = array(
@@ -328,6 +334,9 @@ class adminController extends Controller
 
 	//admin permission
 	public function admin_permission(){
+		$nodeName=isset($_POST['nodename'])?$_POST['nodename']:"";
+		$node_list=$this->admin_mod->get_node_list($nodeName);
+		view::assign(array('node_list'=>$node_list));
 		view::display('admin-permission.html');
 	}
 

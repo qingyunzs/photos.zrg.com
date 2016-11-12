@@ -22,7 +22,7 @@ class indexController extends Controller{
 		//获取数据
 		$menuData=$this->index_mod->get_menu_data();
 		//获取栏目树
-		$menuTree=$this->_init_menu_tree($treeList,0,0,$menuData);
+		$menuTree=$this->_init_menu_tree(@$treeList,0,0,$menuData);
 
 		view::assign(array('menu_tree'=>$menuTree['children']));
 		view::assign(array('admin_url' => ADMIN_URL));
@@ -54,7 +54,7 @@ class indexController extends Controller{
 			//将获取到的数据赋值到$treeList中
 			$treeList=$rootData;
 			//调用递归方法获取子节点(子栏目)信息
-			$treeList['children']=$this->_get_sub_menu_tree($treeList['children'],$parentId,$menuData);
+			@$treeList['children']=$this->_get_sub_menu_tree($treeList['children'],$parentId,$menuData);
 			return $treeList;
 		}
 	}
