@@ -72,13 +72,13 @@ class indexController extends Controller{
 		if (!empty($subNodeData) && is_array($subNodeData)) {
 			foreach ($subNodeData as $key => $value) {
 				$tempArr=array(
-					'menu_id'=>$value['menu_id'],
-					'menu_parent_id'=>$value['menu_parent_id'],
-					'menu_name'=>$value['menu_name'],
-					'menu_alias'=>$value['menu_alias'],
-					'menu_icon'=>$value['menu_icon'],
-					'menu_url'=>$value['menu_url'],
-					'children'=>''
+					'menu_id'        =>$value['menu_id'],
+					'menu_parent_id' =>$value['menu_parent_id'],
+					'menu_name'      =>$value['menu_name'],
+					'menu_alias'     =>$value['menu_alias'],
+					'menu_icon'      =>$value['menu_icon'],
+					'menu_url'       =>$value['menu_url'],
+					'children'       =>''
 					);
 				//递归调用
 				$tempArr['children']=$this->_get_sub_menu_tree($tempArr['children'],$value['menu_id'],$menuData);

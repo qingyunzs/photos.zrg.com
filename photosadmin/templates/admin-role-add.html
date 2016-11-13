@@ -9,7 +9,7 @@
 			<div class="row cl">
 				<label class="form-label col-2"><span class="c-red">*</span>角色ID：</label>
 				<div class="formControls col-5">
-					<input type="text" class="input-text" value="{#$role_id#}" id="roleid" name="roleid" datatype="n1-2" disabled="disabled" nullmsg="角色ID不能为空">
+					<input type="text" class="input-text" value="{#$role_id#}" id="roleid" name="roleid" datatype="n1-2" readonly="readonly" nullmsg="角色ID不能为空">
 				</div>
 				<div class="col-4"> </div>
 			</div>
@@ -199,7 +199,9 @@
 				}
 			});
 
-			// 初始化Validform，添加角色表单
+			/**
+			 * 初始化Validform，添加角色表单
+			 */
 			$("#form-admin-role-add").Validform({
 				tiptype:2, //input tip.
 				ajaxPost:true,
@@ -211,8 +213,15 @@
 							parent.$('.btn-refresh').click();
 							parent.layer.close(index);
 						});
-					}else{
+					}else if(data.status=='n'){
 						layer.msg(data.info,{icon:2,time:2000}, function(){
+							parent.location.reload();//reload parent page.
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.$('.btn-refresh').click();
+							parent.layer.close(index);
+						});
+					}else{
+						layer.msg(data.info,{icon:5,time:2000}, function(){
 							parent.location.reload();//reload parent page.
 							var index = parent.layer.getFrameIndex(window.name);
 							parent.$('.btn-refresh').click();

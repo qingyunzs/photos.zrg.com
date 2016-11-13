@@ -4,8 +4,10 @@
 */
 class adminModel extends Model
 {
+	//table name.
 	public $_table_admin = 'system_admin';
 	public $_table_role = 'system_roles';
+	public $_table_node = 'system_node';
 
 	function __construct()
 	{
@@ -40,7 +42,6 @@ class adminModel extends Model
 
 		$sql.=" LIMIT ".($searchObj->page_number-1)*$searchObj->page_size.",".$searchObj->page_size;
 		$allSql=" SELECT ".$sql;
-		echo $allSql;
 		$result = db::findAll($allSql);
 		return $result;
 	}
@@ -271,7 +272,6 @@ class adminModel extends Model
 		$where = " id = $id";
 		return db::update($this->_table_role,$role_data,$where);
 	}
-
 	/**
 	 * Delete role.
 	 * @param  [type] $id [description]
@@ -281,11 +281,45 @@ class adminModel extends Model
 		$where = " id in (".$id.") ";
 		return db::del($this->_table_role,$where);
 	}
-
+	/**
+	 * Get node list.
+	 * @param  [type] $node_name [description]
+	 * @return [type]            [description]
+	 */
 	function get_node_list($node_name){
-		$sql="SELECT id,node_code,parent_node_code,node_name,create_time,create_who,edit_time,edit_who,remarks FROM ph_system_node";
-		$sql.=" WHERE node_name like '%".$node_name."%'";
+		$sql="SELECT id,node_code,parent_node_code,node_name,create_time,create_who,edit_time,edit_who,remarks FROM ".DB_PREFIX.$this->_table_node;
+		if (!empty($node_name)) {
+			$sql.=" WHERE node_name like '%".$node_name."%'";
+		}
 		return db::findAll($sql);
 	}
+	/**
+	 * [get_node_data description]
+	 * @return [type] [description]
+	 */
+	function get_node_data(){
+		$sql="SELECT id,node_code,parent_node_code,node_name FROM ".DB_PREFIX.$this->_table_node;
+		return db::findAll($sql);
+	}
+	/**
+	 * Query node by node_code
+	 * @param  [type] $nodeCode [description]
+	 * @return [type]           [description]
+	 */
+	function get_node_root_data($nodeCode){
+		$sql="SELECT id,node_code,parent_node_code,node_name FROM ".DB_PREFIX.$this->_table_node;
+        $sql.=" WHERE node_code= '".$nodeCode."' ";
+        return db::findOne($sql);
+	}
+	/**
+	 * Get chilren node data.
+	 * @param  [type] $nodeParentCode [description]
+	 * @return [type]                 [description]
+	 */
+	function get_node_children_data($nodeParentCode){
+        $sql="SELECT id,node_code,parent_node_code,node_name FROM ".DB_PREFIX.$this->_table_node;
+        $sql.=" WHERE parent_node_code= '".$nodeParentCode."' ";
+        return db::findAll($sql);
+    }
 }
 ?>

@@ -284,7 +284,8 @@ class adminController extends Controller
 					exit(json_encode(array('info'=>'添加角色失败。','status'=>'n')));
 				}
 			}else{
-				$this->show_message('角色已存在！','index.php?controller=admin');
+				// $this->show_message('角色已存在！','index.php?controller=admin');
+				exit(json_encode(array('info'=>'角色已存在！','status'=>'*')));
 			}
 		}
 	}
@@ -342,12 +343,70 @@ class adminController extends Controller
 
 	//admin permission add,edit
 	public function admin_permission_add(){
-		view::display('admin-permission-add.html');
+		if (!IS_POST) {
+			//get node data.
+			$nodeData=$this->admin_mod->get_node_data();
+			//get node tree.
+			$nodeTree=$this->_init_node_tree(@$treeList,0,0,$nodeData);
+
+			view::assign(array('nodeTree'=>$nodeTree));
+			view::display('admin-permission-add.html');
+		}else{
+
+		}
 	}
 
 	//admin permission delete
 	public function admin_permission_del(){
 		
+	}
+
+	/**
+	 * init node tree.
+	 * @param  [type] $treeList   [description]
+	 * @param  [type] $parentCode [description]
+	 * @param  [type] $rootCode   [description]
+	 * @param  [type] $nodeData   [description]
+	 * @return [type]             [description]
+	 */
+	private function _init_node_tree($treeList,$parentCode,$rootCode,$nodeData){
+		if (isset($rootCode)) {
+			//通过rootId查询到对应栏目信息
+			$rootData=$this->admin_mod->get_node_root_data($rootCode);
+			//将获取到的数据赋值到$treeList中
+			$treeList=$rootData;
+			//调用递归方法获取子节点(子栏目)信息
+			@$treeList['children']=$this->_get_sub_node_tree($treeList['children'],$parentCode,$nodeData);
+			return $treeList;
+		}
+	}
+	/**
+	 * Get sub node tree.
+	 * @param  [type] $treeList   [description]
+	 * @param  [type] $parentCode [description]
+	 * @param  [type] $nodeData   [description]
+	 * @return [type]             [description]
+	 */
+	private function _get_sub_node_tree($treeList,$parentCode,$nodeData){
+		$tempArr=array();
+		//通过parentId获取子节点（子栏目）信息
+		$subNodeData=$this->admin_mod->get_node_children_data($parentCode);
+		if (!empty($subNodeData) && is_array($subNodeData)) {
+			foreach ($subNodeData as $key => $value) {
+				$tempArr=array(
+					'id'               =>$value['id'],
+					'node_code'        =>$value['node_code'],
+					'parent_node_code' =>$value['parent_node_code'],
+					'node_name'        =>$value['node_name'],
+					'children'         =>''
+					);
+				//递归调用
+				$tempArr['children']=$this->_get_sub_node_tree($tempArr['children'],$value['node_code'],$nodeData);
+				//将每一条信息赋值到$treeList中，注意该语句放于最后。
+				$treeList[]=$tempArr;
+			}
+		}
+		return $treeList;
 	}
 }
 ?>
