@@ -11,7 +11,7 @@
 				<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜权限节点</button>
 			</form>
 		</div>
-		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_permission_add('添加权限节点','index.php?controller=admin&method=admin_permission_add','800','400')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限节点</a></span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_permission_add('添加权限节点','index.php?controller=admin&method=admin_permission_add','800','400')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限节点</a></span> <span class="r">共有数据：<strong>{#$node_counts#}</strong> 条</span> </div>
 		<table class="table table-border table-bordered table-bg">
 			<thead>
 				<tr>
@@ -26,7 +26,7 @@
 					<th width="180">添加时间</th>
 					<th width="100">添加用户</th>
 					<th width="180">最后编辑时间</th>
-					<th width="100">编辑用户</th>
+					<th width="100">最后编辑用户</th>
 					<th>备注</th>
 					<th width="100">操作</th>
 				</tr>
@@ -39,10 +39,10 @@
 					<td>{#$nodes.id#}</td>
 					<td>{#$nodes.node_code#}</td>
 					<td>{#$nodes.parent_node_code#}</td>
-					<td>{#$nodes.node_name#}</td>
-					<td>{#$nodes.create_time#}</td>
+					<td class="text-l"><!-- {#if !empty($nodes.parent_node_code)#} -->|---<!-- {#/if#} --><!-- {#if $nodes.parent_node_code=='0'#} -->|-<!-- {#/if#} -->{#$nodes.node_name#}</td>
+					<td>{#if $nodes.create_time#}{#date('Y-m-d H:i:s',$nodes.create_time)#}{#/if#}</td>
 					<td>{#$nodes.create_who#}</td>
-					<td>{#$nodes.edit_time#}</td>
+					<td>{#if $nodes.edit_time#}{#date('Y-m-d H:i:s',$nodes.edit_time)#}{#/if#}</td>
 					<td>{#$nodes.edit_who#}</td>
 					<td>{#$nodes.remarks#}</td>
 					<td><a title="编辑" href="javascript:;" onclick="admin_permission_edit('角色编辑','admin-permission-add.html','1','','310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_permission_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
@@ -57,6 +57,21 @@
 			</tbody>
 			<!-- {#/if#} -->
 		</table>
+	</div>
+	<div id="page">
+		<div style="float: left;margin: 0px 0px 20px 20px;">
+			<span>当前&nbsp;&nbsp;{#$curr_page#}/{#$total_page#}&nbsp;&nbsp;页</span></span>
+		</div>&nbsp;&nbsp;
+		<div style="float: right;margin: 0px 20px 20px 0px;">
+			<span><a href='index.php?controller=admin&amp;method=admin_permission&amp;curr_page=1'>首页</a></span>
+			<!-- {#if $curr_page gt 1#} -->
+			<span><a href='index.php?controller=admin&amp;method=admin_permission&amp;curr_page={#$curr_page-1#}'>上一页</a></span>
+			<!-- {#/if#} -->
+			<!-- {#if $curr_page lt $total_page#} -->
+			<span><a href='index.php?controller=admin&amp;method=admin_permission&amp;curr_page={#$curr_page+1#}'>下一页</a></span>
+			<!-- {#/if#} -->
+			<span><a href='index.php?controller=admin&amp;method=admin_permission&amp;curr_page={#$total_page#}'>尾页</a></span>
+		</div>
 	</div>
 	{#include file="_footer.html"#}
 	<script type="text/javascript" src="ADMIN_PUBLIC/lib/laypage/1.2/laypage.js"></script>

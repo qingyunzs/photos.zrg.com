@@ -332,16 +332,40 @@ class adminController extends Controller
 			}
 		}
 	}
+	public function set_role_permission(){
+		if (!IS_POST) {
+			view::display('admin-role-permission.html');
+		}else{
 
-	//admin permission
+		}
+	}
+
+	//admin permission list
 	public function admin_permission(){
+		$returninfo=new ReturnInfo();
+
 		$nodeName=isset($_POST['nodename'])?$_POST['nodename']:"";
-		$node_list=$this->admin_mod->get_node_list($nodeName);
+		$curr_page = empty($_REQUEST['curr_page']) ? 1 : $_REQUEST['curr_page'];
+		$page_size   = empty($_REQUEST['curr_size']) ? 10 : $_REQUEST['curr_size'];
+
+		$searchObj=(object)array(
+			'node_name'   =>$nodeName,
+			'page_number' =>$curr_page,
+			'page_size'   =>$page_size
+			);
+
+		$node_list=$this->admin_mod->get_node_list($searchObj,$returninfo);
+		$node_counts=$returninfo->count['count'];
+		$total_page=ceil($node_counts/$page_size); // 如果有余，向上取整
+
+		view::assign(array('curr_page'=>$curr_page));
+		view::assign(array('total_page'=>$total_page));
+		View::assign(array('node_counts'=>$node_counts));
 		view::assign(array('node_list'=>$node_list));
 		view::display('admin-permission.html');
 	}
 
-	//admin permission add,edit
+	//admin permission add
 	public function admin_permission_add(){
 		if (!IS_POST) {
 			//get node data.
@@ -352,8 +376,54 @@ class adminController extends Controller
 			view::assign(array('nodeTree'=>$nodeTree));
 			view::display('admin-permission-add.html');
 		}else{
-
+			//判断父节点编号
+			if ($_POST['parentnodecode']!='0') {
+				$parentNodeCode=substr(trim($_POST['parentnodecode']),0,-3)."001";
+			}else{
+				$parentNodeCode=trim($_POST['parentnodecode']);
+			}
+			$node_data = array(
+				'parent_node_code' => $parentNodeCode,
+				'node_code'        => trim($_POST['nodecode']),
+				'node_name'        => trim($_POST['nodename']),
+				'remarks'          => $_POST['remark'],
+				'create_time'      => time(),
+				'create_who'       => $_SESSION['auth']['admin_name']
+				);
+			try {
+				$id=$this->admin_mod->add_node_info($node_data);
+				if ($id) {
+					exit(json_encode(array('info'=>'添加节点成功。','status'=>'y')));
+				}else{
+					exit(json_encode(array('info'=>'添加节点失败。','status'=>'n')));
+				}
+			} catch (Exception $e) {
+				exit(json_encode(array('info'=>'系统繁忙，请稍后再试！','status'=>'')));
+			}
 		}
+	}
+	//Get max node value
+	public function get_max_node_value(){
+		$moduleName=$_REQUEST['module_name'];
+		if (empty($moduleName)) {
+			exit(json_encode(array('info'=>'请手动填写节点编号。','value'=>'')));
+		}
+		$maxNodeValue=$this->admin_mod->get_max_node_code_value($moduleName);
+		if ($maxNodeValue) {
+			$maxNodeValue['max_value']++;
+			$resValue="";
+			if ($maxNodeValue['max_value']<10) {
+				$resValue="00".$maxNodeValue['max_value'];
+			}else if($maxNodeValue['max_value']<100){
+				$resValue="0".$maxNodeValue['max_value'];
+			}else if($maxNodeValue['max_value']<1000){
+				$resValue=$maxNodeValue['max_value'];
+			}
+			exit(json_encode(array('info'=>'','value'=>$resValue)));
+		}else{
+			exit(json_encode(array('info'=>'获取编号异常，请手动填写节点编号。','value'=>'')));
+		}
+		
 	}
 
 	//admin permission delete

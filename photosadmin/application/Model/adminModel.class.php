@@ -286,12 +286,17 @@ class adminModel extends Model
 	 * @param  [type] $node_name [description]
 	 * @return [type]            [description]
 	 */
-	function get_node_list($node_name){
-		$sql="SELECT id,node_code,parent_node_code,node_name,create_time,create_who,edit_time,edit_who,remarks FROM ".DB_PREFIX.$this->_table_node;
-		if (!empty($node_name)) {
-			$sql.=" WHERE node_name like '%".$node_name."%'";
+	function get_node_list($searchObj,$returninfo){
+		$sql=" id,node_code,parent_node_code,node_name,create_time,create_who,edit_time,edit_who,remarks FROM ".DB_PREFIX.$this->_table_node;
+		if (!empty($searchObj->node_name)) {
+			$sql.=" WHERE node_name like '%".$searchObj->node_name."%'";
 		}
-		return db::findAll($sql);
+		$sql.=" GROUP BY id,node_code";
+		
+		$returninfo->count=parent::get_data_counts($sql,true);
+		$sql.=" LIMIT ".($searchObj->page_number-1)*$searchObj->page_size.",".$searchObj->page_size;
+		$allSql=" SELECT ".$sql;
+		return db::findAll($allSql);
 	}
 	/**
 	 * [get_node_data description]
@@ -321,5 +326,21 @@ class adminModel extends Model
         $sql.=" WHERE parent_node_code= '".$nodeParentCode."' ";
         return db::findAll($sql);
     }
+    /**
+     * Get maxt node value of module
+     * @return [type] [description]
+     */
+    function get_max_node_code_value($module_name){
+    	$sql="SELECT RIGHT(MAX(node_code),3) as max_value FROM ".DB_PREFIX.$this->_table_node;
+    	$sql.=" WHERE node_code LIKE '%".$module_name."%'";
+    	return db::findOne($sql);
+    }
+    /**
+     * Add node info.
+     * @param [type] $role_datas [description]
+     */
+    function add_node_info($node_datas){
+		return db::insert($this->_table_node,$node_datas);
+	}
 }
 ?>

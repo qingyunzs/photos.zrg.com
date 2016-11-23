@@ -1,20 +1,21 @@
 {#include file="_header.html"#}
+<link href="ADMIN_PUBLIC/css/style.css" rel="stylesheet" type="text/css" />
 <link href="ADMIN_PUBLIC/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
 <link href="ADMIN_PUBLIC/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
 <title>添加权限节点</title>
 </head>
 <body>
 	<div class="pd-20">
-		<form action="" method="post" class="form form-horizontal" id="form-article-add">
+		<form action="" method="post" class="form form-horizontal" id="form-node-add">
 			<div class="c1">
 				<p style="color: red;" class="col-2">请先选择上级节点</p>
 				<a href="#" style="text-decoration: none;" title="查看帮助"><i class="Hui-iconfont">&#xe633;</i></a>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-2"><span class="c-red">*</span>上级节点：</label>
-				<div class="formControls col-4">
+				<div class="formControls col-5">
 					<span class="select-box">
-						<select id="parentNodeCode" name="parentNodeCode" class="select">
+						<select id="parentnodecode" name="parentnodecode" class="select">
 							<!-- {#if $nodeTree#} -->
 							<option value="{#$nodeTree.node_code#}">{#$nodeTree.node_name#}</option>
 							<!-- {#foreach $nodeTree.children item=$nodes#} -->
@@ -24,32 +25,37 @@
 							<option value="{#$node.node_code#}">¦¦--{#$node.node_name#}</option>
 							<!-- {#/foreach#} -->
 							<!-- {#/if#} -->
-							<!-- {#/foreach#} -->					
-
+							<!-- {#/foreach#} -->
 							<!-- {#/if#} -->
 						</select>
 					</span> 
 				</div>
+				<div class="col-4"> </div>			
+			</div>
+			<div class="row c1">
 				<label class="form-label col-2"><span class="c-red">*</span>节点编号：</label>
-				<div class="formControls col-4">
-					<input type="text" class="input-text" value="" placeholder="如果选择二级节点，编号将自动生成" id="" name="node_id">
+				<div class="formControls col-5">
+					<input type="text" class="input-text" value="" placeholder="如果选择二级节点，编号将自动生成" id="nodecode" name="nodecode" datatype="/\bP[A-Z]+\d{3}$/g" nullmsg="节点编号不能为空">
 				</div>
+				<div class="col-4"> </div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-2"><span class="c-red">*</span>节点名称：</label>
-				<div class="formControls col-4">
-					<input type="text" class="input-text" value="" placeholder="" id="" name="node_name">
+				<div class="formControls col-5">
+					<input type="text" class="input-text" value="" placeholder="请填写节点名称" id="nodename" name="nodename" datatype="*1-16" nullmsg="节点名称不能为空">
 				</div>
+				<div class="col-4"> </div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-2">备注：</label>
-				<div class="formControls col-10">
-					<input type="text" class="input-text" value="" placeholder="" id="" name="">
+				<div class="formControls col-6">
+					<textarea id="remark" name="remark" cols="" rows="" class="textarea"  placeholder="请在这里输入该节点的描述信息。" dragonfly="true" onKeyUp="textarealength(this,100)"></textarea>
+					<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 				</div>
 			</div>
 			<div class="row cl">
 				<div class="col-10 col-offset-2">
-					<button type="submit" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i class="icon-ok"></i> 提交</button>
+					<button type="submit" class="btn btn-success radius" id="admin-node-save" name="admin-node-save"><i class="icon-ok"></i> 提交</button>
 					<button type="reset" class="btn btn-secondary radius" id="admin-node-reset" name="admin-node-reset">重置</button>
 				</div>
 			</div>
@@ -67,12 +73,59 @@
 				radioClass: 'iradio-blue',
 				increaseArea: '20%'
 			});
-
-			$('#parentNodeCode').change(function(){
-				var parentNodeCode=$('#parentNodeCode').val();
-				var newCode="P"+parentNodeCode.substring(1,3)+001;
+			//当选择节点时，自动产生编号
+			$('#parentnodecode').change(function(){
+				var parentNodeCode=$('#parentnodecode').val();
+				var moduleName=parentNodeCode.substring(1).replace(/[^A-Z]/g,'');
+				$.ajax({
+					url:'index.php?controller=admin&method=get_max_node_value',
+					type: 'GET',
+					dataType: 'json',
+					data:{module_name:moduleName},
+					success:function(data){
+						if (data.value) {
+							var newCode="P"+moduleName+data.value;
+							$('#nodecode').val(newCode);
+						}else{
+							// 将节点编号输入框置为空
+							$('#nodecode').val('');
+						}
+					}
+				});
 			});
-		});
-	</script>
-</body>
-</html>
+			/**
+			 * 初始化Validform
+			 * 添加节点
+			 */
+			 $("#form-node-add").Validform({
+				tiptype:2, //input tip.
+				ajaxPost:true,
+				callback:function(data){
+					if (data.status=='y') {
+						layer.msg(data.info, {icon: 1,time:2000}, function(){
+							parent.location.reload();//reload parent page.
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.$('.btn-refresh').click();
+							parent.layer.close(index);
+						});
+					}else if(data.status=='n'){
+						layer.msg(data.info,{icon:2,time:2000}, function(){
+							parent.location.reload();//reload parent page.
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.$('.btn-refresh').click();
+							parent.layer.close(index);
+						});
+					}else{
+						layer.msg(data.info,{icon:5,time:2000}, function(){
+							parent.location.reload();//reload parent page.
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.$('.btn-refresh').click();
+							parent.layer.close(index);
+						});
+					}
+				}
+			});
+			});
+		</script>
+	</body>
+	</html>

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2016-10-24 22:44:51
+Date: 2016-11-23 22:48:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -142,13 +142,14 @@ CREATE TABLE `ph_system_admin` (
   `remark` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '描述信息',
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=351 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=353 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of ph_system_admin
 -- ----------------------------
-INSERT INTO `ph_system_admin` VALUES ('1', '0', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '男', '1390556487@qq.com', '13822221141', '1470837595', '1471136371', '127.0.0.1', '1477305038', '1', '0', '超级管理员，至高无上的权利');
+INSERT INTO `ph_system_admin` VALUES ('1', '0', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '男', '1390556487@qq.com', '13822221141', '1470837595', '1471136371', '127.0.0.1', '1479912235', '1', '0', '超级管理员，至高无上的权利');
 INSERT INTO `ph_system_admin` VALUES ('350', '1', 'test', 'e10adc3949ba59abbe56e057f20f883e', '男', '134@qq.com', '13566765611', '1475669519', null, null, null, '1', '0', '');
+INSERT INTO `ph_system_admin` VALUES ('351', '1', '4521412', 'e10adc3949ba59abbe56e057f20f883e', '男', '185158519@qq.com', '183143423322', '1478788907', null, null, null, '1', '1', '234');
 
 -- ----------------------------
 -- Table structure for ph_system_logs
@@ -247,27 +248,66 @@ CREATE TABLE `ph_system_node` (
   `remarks` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `node_code` (`node_code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of ph_system_node
 -- ----------------------------
+INSERT INTO `ph_system_node` VALUES ('1', 'PARTICLE001', '0', '文章管理', null, null, null, null, null);
+INSERT INTO `ph_system_node` VALUES ('2', 'PARTICLE002', 'PARTICLE001', '文章列表', null, null, null, null, null);
+INSERT INTO `ph_system_node` VALUES ('4', 'PARTICLE003', 'PARTICLE001', '文章分类', null, null, null, null, null);
+INSERT INTO `ph_system_node` VALUES ('5', 'PPICTURE001', '0', '图片管理', null, null, null, null, null);
+INSERT INTO `ph_system_node` VALUES ('6', '0', null, '所有节点', null, null, null, null, null);
+INSERT INTO `ph_system_node` VALUES ('7', 'PPICTURE002', 'PPICTURE001', '图片列表', '1479825899', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('8', 'PPICTURE003', 'PPICTURE001', '图片分类', '1479826332', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('9', 'PPAGE001', '0', '页面管理', '1479826419', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('10', 'PPAGE002', 'PPAGE001', '友情链接', '1479826460', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('11', 'PADVERT001', '0', '广告管理', '1479826600', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('12', 'PADVERT002', 'PADVERT001', '广告分类', '1479826618', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('13', 'PADVERT003', 'PADVERT001', '广告列表', '1479826649', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('14', 'PCOMMENT001', '0', '评论管理', '1479899297', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('15', 'PCOMMENT002', 'PCOMMENT001', '评论列表', '1479900096', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('16', 'PCOMMENT003', 'PCOMMENT001', '意见反馈', '1479900126', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('18', 'PFINANCE001', '0', '财务管理', '1479900610', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('19', 'PMEMBER001', '0', '会员管理', '1479900656', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('20', 'PADMIN001', '0', '管理员管理', '1479900694', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('21', 'PSTATISTICS001', '0', '统计分析', '1479900811', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('22', 'PSYSTEM001', '0', '系统管理', '1479900844', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('23', 'PFINANCE002', 'PFINANCE001', '订单列表', '1479900904', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('24', 'PFINANCE003', 'PFINANCE001', '充值管理', '1479900931', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('25', 'PFINANCE004', 'PFINANCE001', '发票管理', '1479900966', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('26', 'PMEMBER002', 'PMEMBER001', '会员列表', '1479901180', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('27', 'PMEMBER003', 'PMEMBER001', '会员回收站', '1479901218', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('28', 'PMEMBER004', 'PMEMBER001', '等级管理', '1479901344', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('29', 'PMEMBER005', 'PMEMBER001', '积分管理', '1479901525', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('30', 'PMEMBER006', 'PMEMBER001', '浏览记录', '1479901546', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('31', 'PMEMBER007', 'PMEMBER001', '下载记录', '1479901574', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('32', 'PMEMBER008', 'PMEMBER001', '分享记录', '1479901597', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('33', 'PADMIN002', 'PADMIN001', '管理员列表', '1479901610', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('34', 'PADMIN003', 'PADMIN001', '管理员回收站', '1479901623', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('35', 'PADMIN004', 'PADMIN001', '角色管理', '1479901639', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('36', 'PADMIN005', 'PADMIN001', '权限管理', '1479901652', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('37', 'PSYSTEM002', 'PSYSTEM001', '系统设置', '1479901675', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('38', 'PSYSTEM003', 'PSYSTEM001', '栏目管理', '1479901690', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('39', 'PSYSTEM004', 'PSYSTEM001', '数据字典', '1479901707', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('40', 'PSYSTEM005', 'PSYSTEM001', '屏蔽词汇', '1479901735', 'admin', null, null, '');
+INSERT INTO `ph_system_node` VALUES ('41', 'PSYSTEM006', 'PSYSTEM001', '系统日志', '1479901746', 'admin', null, null, '');
 
 -- ----------------------------
--- Table structure for ph_system_node_permission
+-- Table structure for ph_system_node_menu
 -- ----------------------------
-DROP TABLE IF EXISTS `ph_system_node_permission`;
-CREATE TABLE `ph_system_node_permission` (
+DROP TABLE IF EXISTS `ph_system_node_menu`;
+CREATE TABLE `ph_system_node_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `node_code` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '节点编码',
-  `privilege_code` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '权限编码',
+  `menu_id` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '栏目ID',
   PRIMARY KEY (`id`),
   KEY `node_code` (`node_code`),
-  KEY `privilege_code` (`privilege_code`)
+  KEY `privilege_code` (`menu_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of ph_system_node_permission
+-- Records of ph_system_node_menu
 -- ----------------------------
 
 -- ----------------------------
@@ -319,7 +359,7 @@ CREATE TABLE `ph_system_roles` (
   `description` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '角色描述',
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of ph_system_roles
@@ -328,6 +368,7 @@ INSERT INTO `ph_system_roles` VALUES ('1', '0', '超级管理员', 'super_admini
 INSERT INTO `ph_system_roles` VALUES ('2', '1', '普通管理员', 'general_administrator', '普通管理员，可以进行会员管理、查看信息统计、系统的基本设置等，同时拥有编辑者所有权限。');
 INSERT INTO `ph_system_roles` VALUES ('11', '2', '编辑', 'editor', 'editor');
 INSERT INTO `ph_system_roles` VALUES ('4', '3', '财务', 'financial_staff', '财务，进行财务管理，等级与管理员、编辑等一样。');
+INSERT INTO `ph_system_roles` VALUES ('15', '4', '测试人员', 'test', '测试系统');
 
 -- ----------------------------
 -- Table structure for ph_system_role_permission
@@ -336,8 +377,7 @@ DROP TABLE IF EXISTS `ph_system_role_permission`;
 CREATE TABLE `ph_system_role_permission` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_id` int(11) DEFAULT NULL COMMENT '角色ID',
-  `privilege_code` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '权限ID',
-  `access_privilege_code` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '访问权限编码',
+  `node_code` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '节点编码',
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -396,3 +436,41 @@ GROUP BY
 	role_alias
 ORDER BY
 	admin.add_time DESC ;
+
+-- ----------------------------
+-- Procedure structure for P_ADD_ROLE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `P_ADD_ROLE`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `P_ADD_ROLE`(IN `roleId` int,IN `roleName` varchar(30),IN `roleAlias` varchar(30),IN `description` varchar(100),OUT `result` varchar(100))
+BEGIN
+	DECLARE roleid_counts INT;
+	DECLARE rolename_counts INT;
+	DECLARE insert_sql INT;
+	-- 设置@result，以便返回信息
+	SET @result=result;
+	-- 根据传入角色ID、角色名称查询是否有重复
+	SET roleid_counts=(SELECT COUNT(*) from ph_system_roles WHERE `role_id`=roleId);
+	SET rolename_counts=(SELECT COUNT(*) from ph_system_roles WHERE `role_name`=roleName);
+	-- 角色ID重复处理
+	IF(roleid_counts>0) THEN
+		SET @result='角色ID已被使用，请联系数据库管理员！';
+		SELECT @result;
+	-- 角色名称重复处理
+	ELSEIF(rolename_counts>0) THEN
+		SET @result='角色名称已被使用，请重新输入！';
+		SELECT @result;
+	ELSE
+		-- 赋值
+		SET @role_id=`roleId`;
+		SET @role_name=`roleName`;
+		SET @role_alias=`roleAlias`;
+		SET @description=`description`;
+		-- 插入数据
+		INSERT INTO ph_system_roles VALUES(id,@role_id,@role_name,@role_alias,@description);
+		SET @result='成功添加';
+		SELECT @result;
+	END IF;
+END
+;;
+DELIMITER ;

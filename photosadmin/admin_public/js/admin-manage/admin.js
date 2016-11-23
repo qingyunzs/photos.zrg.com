@@ -216,7 +216,7 @@ var adminManage=new admin_manage();
 	 */
 	 _this.admin_role_add=function(title,url,w,h){
 	 	layer_show(title,url,w,h);
-	 }
+	 };
 	/**
 	 * 管理员-角色-编辑
 	 * @param  {[type]} title [description] 
@@ -227,7 +227,17 @@ var adminManage=new admin_manage();
 	 */
 	 _this.admin_role_edit=function(title,url,w,h){
 	 	layer_show(title,url,w,h);
-	 }
+	 };
+	 /**
+	  * 为角色分配权限
+	  * @param {[type]} title [description]
+	  * @param {[type]} url   [description]
+	  * @param {[type]} w     [description]
+	  * @param {[type]} h     [description]
+	  */
+	 _this.set_role_permission=function(title,url,w,h){
+	 	layer_show(title,url,w,h);
+	 };
 	/**
 	 * 管理员-角色-删除
 	 * @param  {[type]} obj [description]
@@ -264,6 +274,8 @@ var adminManage=new admin_manage();
 	 };
 
 //--------------------权限管理
-
+	_this.admin_node_add=function(){
+		
+	};
 
 }
